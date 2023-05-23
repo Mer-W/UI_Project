@@ -2,3 +2,7 @@ Links to examples found online:
 
 Solitaire
 https://codepen.io/bfa/pen/ggGYeE
+
+Blackjack
+https://codesandbox.io/s/javascript-beginner-tutorial-blackjack-epegw?from-embed
+
