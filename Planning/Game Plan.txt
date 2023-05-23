@@ -1,0 +1,32 @@
+
+Sequence of events:
+1. Introduce game. List instructions with rules. Invite user to begin game by clicking a button.
+2. Game play. User and dealer hands are dealt. Sequence depends on user choices. User takes turn. Dealer only takes turn after user stand.
+3. End game. Display results.
+
+
+
+Game play:
+1. Set up user bank with starting amount and retrieve bet. User may set bet by clicking one button out of a set with preset amounts, e.g. 1, 5, 25, 50, 100. Subtract bet from bank.*
+2. User initiates deal by clicking a button.
+3. Deal cards. User gets two cards face up. Dealer gets one card face down, one card face up.
+4. Offer user two options: hit or stand. User clicks button to enter choice.
+5. User turn.
+- If user hits: deal additional card. User may repeat until bust or stand.
+- If user busts, user loses.
+- If user stands, dealer turn.
+6. Dealer turn.
+- Down facing card is flipped.
+- Dealer hits until bust or stand. Dealer stands at 17 or above.
+7. Final scores.
+- If user doesn't bust and points are greater than dealer's, or if dealer busts, user wins. Add double bet amount to bank.*
+- If tied, no win. Bet amount is returned to bank.*
+- Otherwise, dealer wins.
+
+End game:
+1. Declare winner.
+2. Display bank balance.*
+3. Invite user to play again with a button.
+
+
+*If betting functionality included.
