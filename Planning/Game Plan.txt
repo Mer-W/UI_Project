@@ -4,8 +4,6 @@ Sequence of events:
 2. Game play. User and dealer hands are dealt. Sequence depends on user choices. User takes turn. Dealer only takes turn after user stand.
 3. End game. Display results.
 
-
-
 Game play:
 1. Set up user bank with starting amount and retrieve bet. User may set bet by clicking one button out of a set with preset amounts, e.g. 1, 5, 25, 50, 100. Subtract bet from bank.*
 2. User initiates deal by clicking a button.
@@ -23,6 +21,8 @@ Game play:
 - If tied, no win. Bet amount is returned to bank.*
 - Otherwise, dealer wins.
 
+Note: Aces may count as 1 or 11. The value is automatically changed at any point where doing so benefits either player's hand.
+
 End game:
 1. Declare winner.
 2. Display bank balance.*
@@ -30,3 +30,16 @@ End game:
 
 
 *If betting functionality included.
+
+
+
+------------------
+
+Layout
+
+- Opening sequence similar to goFish, i.e. box with introduction above, button to initiate game below. All game play elements hidden.
+- On initiation, overwrite opening elements and display game play elements.
+- Card table in two rows: Dealer hand displayed in top row, user hand displayed in bottom row.
+- User buttons displayed in third row beneath car table.
+- Final sequence may replace some or all game play elements or be displayed in an overlapping box.
+- Cards displayed as rows of boxes. May or may not overlap. May or may not change position when additional cards are dealt.
