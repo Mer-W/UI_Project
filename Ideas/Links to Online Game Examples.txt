@@ -6,3 +6,5 @@ https://codepen.io/bfa/pen/ggGYeE
 Blackjack
 https://codesandbox.io/s/javascript-beginner-tutorial-blackjack-epegw?from-embed
 
+Dice roller
+https://codepen.io/Pyremell/pen/eZGGXX/
