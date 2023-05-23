@@ -8,3 +8,4 @@ https://codesandbox.io/s/javascript-beginner-tutorial-blackjack-epegw?from-embed
 
 Dice roller
 https://codepen.io/Pyremell/pen/eZGGXX/
+https://www.calculator.net/dice-roller.html
