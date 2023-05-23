@@ -1,0 +1,4 @@
+Links to examples found online:
+
+Solitaire
+https://codepen.io/bfa/pen/ggGYeE
