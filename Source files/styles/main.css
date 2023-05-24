@@ -6,7 +6,7 @@
 
 /* Game Board Styles */
 #game-board, #result-section {
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
     color: white;
@@ -26,7 +26,7 @@
   }
   
   .card-area { 
-    display: flex;
+
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
@@ -48,10 +48,6 @@
   #result-text {
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  
-  .result-msg {
-    display: none;
   }
 
   /* Button Styles */

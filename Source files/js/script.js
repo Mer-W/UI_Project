@@ -173,7 +173,7 @@ function setup() {
 function initiateGame() {
 
   intro.style.display = "none";
-  gameboard.style.display = "flex";
+  gameboard.style.display = "block";
   results.style.display = "none";
 
   beginRound();
@@ -248,7 +248,7 @@ function isTie() {
 */
 function endGame() {
   gameboard.style.display = "none";
-  results.style.display = "flex";
+  results.style.display = "block";
   btnPlayAgain.addEventListener("click", initiateGame);
 
   //append final scores to p elements
@@ -257,27 +257,27 @@ function endGame() {
 
   // check for bust, tie, win, lose; display message
   if (isBust(playerHand) == true) {
-    bust.style.display = "flex";
-    lose.style.display = "flex";
+    bust.style.display = "block";
+    lose.style.display = "block";
     win.style.display = "none";
     tie.style.display = "none";
 
 
   } else if (isTie() == true) {
-    tie.style.display = "flex";
+    tie.style.display = "block";
     win.style.display = "none";
     bust.style.display = "none";
     lose.style.display = "none";
 
   } else if (playerWins() == true) {
-    win.style.display = "flex";
+    win.style.display = "block";
     bust.style.display = "none";
     lose.style.display = "none";
     tie.style.display = "none";
 
 
   } else {
-    lose.style.display = "flex";
+    lose.style.display = "block";
     win.style.display = "none";
     bust.style.display = "none";
     tie.style.display = "none";
