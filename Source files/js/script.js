@@ -30,7 +30,7 @@ var lose = document.getElementById("lose");
 function sortDeck() {
   deck = [];
   let suit = ["club", "diamond", "heart", "spade"];
-  let value = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
+  let value = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
   for (i = 0; i < suit.length; i++) {
     for (j = 0; j < value.length; j++) {
       deck.push(value[j] + suit[i]);
@@ -78,6 +78,8 @@ function setCardPoints(card) {
   switch (tmp) {
     case "A":
       return 1;
+    case "T":
+      return 10;
     case "J":
       return 10;
     case "Q":
