@@ -16,8 +16,8 @@ var gameboard = document.getElementById("game-board");
 var results = document.getElementById("result-section");
   // buttons
 var btnStart = document.getElementById("start-button");
-var btnHit = document.getElementById("hit-button");
-var btnStand = document.getElementById("stand-button");
+var btnHit = document.getElementById("hit-button").addEventListener("click", function() { hit(playerHand)});
+var btnStand = document.getElementById("stand-button").addEventListener("click", dealerTurn);
 var btnPlayAgain = document.getElementById("play-again-button");
   // results messages
 var bust = document.getElementById("bust");
@@ -179,8 +179,9 @@ function initiateGame() {
   beginRound();
 
   // event listeners for hit and stand
-  btnHit.addEventListener("click", function() { hit(playerHand)});
-  btnStand.addEventListener("click", dealerTurn);
+  // Nick: commented out li.183-184, added listeners upon declaring buttons (li.19-20)
+  // btnHit.addEventListener("click", function() { hit(playerHand)});
+  // btnStand.addEventListener("click", dealerTurn);
 }
 
 /**
