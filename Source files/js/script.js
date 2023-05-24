@@ -247,6 +247,7 @@ function initiateGame() {
 
   intro.style.display = "none";
   gameboard.style.display = "flex";
+  results.style.display = "none";
 
   beginRound();
 
