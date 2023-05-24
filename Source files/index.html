@@ -14,8 +14,7 @@
       <h2>How to Play</h2>
       <p class="p-5">You and the dealer are dealt two cards from a 52-card deck. Aces are worth 1 or 11, face cards are worth 10, all others are worth their face value. On your turn, you can add one card at a time to your hand by choosing "hit" or end your turn by choosing "stand". Once you and the dealer have completed your turns, the hand containing the most points without exceeding 21 wins.</p>
       <h4>Ready? Click below to play.</h4>
-      <button id="initiate" class="m-2">Begin Game</button>
-
+      <button id="start-button" class="m-2">Begin Game</button>
     </div>
 
     <!-- Game Board -->
@@ -50,8 +49,16 @@
 
     <!-- Result Section -->
     <div id="result-section">
-      <h2>Result</h2>
-      <p id="result-text"></p>
+      <div>
+        <h2 id="win" class="result-msg">You Won!</h2>
+        <h2 id="bust class="result-msg">Bust!</h2>
+        <h2 id="lose" class="result-msg">You Lost.</h2>
+        <h2 id="tie" class="result-msg">Tie!</h2>
+      </div>
+      <div>
+        <p id="playerScore">Your points:</p>
+        <p id="dealerScore">Dealer's points:</p>
+      </div>
       <button id="play-again-button">Play Again</button>
     </div>
 

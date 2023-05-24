@@ -3,11 +3,31 @@ let topCard;
 const playerHand = [];
 const compHand = [];
 
+// event listener for onload setup
+window.addEventListener('load', setup);
+
+// variables for DOM elements
+  // game phases
+var intro = document.getElementById("intro");
+var gameboard = document.getElementById("game-board");
+var results = document.getElementById("result-section");
+  // buttons
+var btnStart = document.getElementById("start-button");
+var btnHit = document.getElementById("hit-button");
+var btnStand = document.getElementById("stand-button");
+var btnPlayAgain = document.getElementById("play-again-button");
+  // results messages
+var bust = document.getElementById("bust");
+var tie = document.getElementById("tie");
+var win = document.getElementById("win");
+var lose = document.getElementById("lose");
+
 // reset deck (might consolidate this with shuffle)
+// edit: replacing T with 10 and removing case T from switch in setCardPoints. Adding sortDeck function call to shuffleDeck
 function sortDeck() {
   deck = [];
   let suit = ["club", "diamond", "heart", "spade"];
-  let value = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
+  let value = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
   for (i = 0; i < suit.length; i++) {
     for (j = 0; j < value.length; j++) {
       deck.push(value[j] + suit[i]);
@@ -17,6 +37,7 @@ function sortDeck() {
 
 // shuffle deck
 function shuffleDeck() {
+  sortDeck();
   for (i = deck.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -37,7 +58,10 @@ function dealCard() {
 }
 
 // this is kind of temp - used just to populate numbers in console
+// edit: calling shuffleDeck in beginRound
+// todo: resolve issue: player dealt 3 cards
 function beginRound() {
+  shuffleDeck();
   playerHand[0] = dealCard();
   playerHand[1] = dealCard();
   compHand[0] = dealCard();
@@ -49,8 +73,6 @@ function setCardPoints(card) {
   switch (tmp) {
     case "A":
       return 1;
-    case "T":
-      return 10;
     case "J":
       return 10;
     case "Q":
@@ -74,6 +96,35 @@ function hasAce(hand) {
   else return false;
 }
 
+/*
+* Counts points in player's hand
+* @param {array}
+* todo: resolve issue: concatenation of 10 for ace instead of addition?
+*/
+function countPoints(hand) {
+  let points = 0;
+
+  for (let x in hand) {
+    points += setCardPoints(hand[x]);
+  }
+  if (points + 10 <= 21 && hasAce(hand) == true) {
+      points = points + 10;
+  }
+  return points;
+}
+
+/*
+* Checks if hand is bust
+* @param {array}
+*/
+function isBust(hand) {
+  if (countPoints(hand) > 21) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // player hits (I might rework this so either player calls this function)
 function playerHit() {
   playerHand.push(dealCard());
@@ -82,6 +133,54 @@ function playerHit() {
     score += parseInt(setCardPoints(playerHand[x]));
   }
 }
+
+/*
+* possible solution to above i.e. same function for either player, takes either hand as argument
+* does not set score to 0
+* Adds one card to a player's hand
+* @param {array}
+*/
+function hit(hand) {
+  hand.push(dealCard());
+  if (isBust == true) {
+    endGame();
+  }
+}
+
+/*
+* Plays dealer's turn. Called when player stands.
+* IDK when dealer's face down card is revealed?
+*/
+function dealerTurn() {
+  while (countPoints(compHand) < 17) {
+    hit(compHand);
+  }
+  endGame();
+}
+
+/*
+* Compares uneven hands to determine winner
+*/
+function playerWins() {
+ if (countPoints(compHand) < countPoints(playerHand) && isBust(playerHand) == false) {
+  return true;
+ } else {
+  return false;
+ }
+}
+
+/*
+* Checks for tied points
+*/
+function isTie() {
+  if (countPoints(compHand) == countPoints(playerHand)) {
+   return true;
+  } else {
+   return false;
+  }
+ }
+
+// 
 
 /*
 right now it would go something like:
@@ -96,17 +195,7 @@ playerHit()
 */
 
 
-
 /* Game setup functions */
-
-
-window.addEventListener('load', setup); //onload event listener
-
-/* variables for DOM elements */
-var intro = document.getElementById("intro");
-var gameboard = document.getElementById("game-board");
-var results = document.getElementById("result-section");
-var btnStart = document.getElementById("initiate");
 
 
 /* loads first phase */
@@ -114,17 +203,22 @@ function setup() {
 
   gameboard.style.display = "none";
   results.style.display = "none";
-
-  btnStart.addEventListener("click", initiate);
+  // event listener for next phase
+  btnStart.addEventListener("click", initiateGame);
 
 }
 
 /* loads game phase */
-function initiate() {
+function initiateGame() {
 
   intro.style.display = "none";
   gameboard.style.display = "flex";
 
+  beginRound();
+
+  // event listeners for hit and stand
+  btnHit.addEventListener("click", hit(playerHand));
+  btnStand.addEventListener("click", dealerTurn);
 }
 
 /* loads final phase */
@@ -132,5 +226,22 @@ function endGame() {
   gameboard.style.display = "none";
   results.style.display = "flex";
 
+  // todo: append final scores to p elements
+
+  // check for bust, tie, win, lose; display message
+  if (isBust(playerHand)) {
+    bust.style.display = "flex";
+    lose.style.display = "flex";
+
+  } else if (isTie() == true) {
+    tie.style.display = "flex";
+
+  } else if (playerWins() == true) {
+    win.style.display = "flex";
+
+  } else {
+    lose.style.display = "flex";
+  }
+  btnPlayAgain.addEventListener("click", initiateGame);
 }
 
