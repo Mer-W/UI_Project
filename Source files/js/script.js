@@ -205,12 +205,12 @@ function beginRound() {
 * @param {string} elementId element to which card is appended
 */
 function showHand(hand, elementId) {
-  let ul = $("<ul></ul>");
+  let div = $("<div></div>");
   for (let i in hand) {
-    let card = $("<li>" + hand[i] +  "</li>");
-    $(ul).append(card);
+    let card = $('<img src="images/' + hand[i] + '.png" alt="' + hand[i] + '">');
+    $(div).append(card);
    }
-   $(elementId).append(ul);
+   $(elementId).append(div);
 }
 /**
 * Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
