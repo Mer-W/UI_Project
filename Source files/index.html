@@ -17,6 +17,30 @@
       <button id="start-button" class="m-2">Begin Game</button>
     </div>
 
+    <!-- Result Section -->
+    <div id="result-section" class="container text-center">
+      <div class="row">
+        <div class="col">
+          <div class="row my-5">
+            <h2 id="win">You Won!</h2>
+            <h2 id="bust">Bust!</h2>
+            <h2 id="lose">You Lost.</h2>
+            <h2 id="tie">Tie!</h2>
+          </div>
+          <div class="row my-5">
+            <p class="col-9">Your points:</p>
+            <p id="playerScore" class="col-3"></p>
+            <p class="col-9">Dealer's points:</p>
+            <p id="dealerScore" class="col-3"></p>
+          </div>
+        </div>
+          <div class="col align-self-center">
+            <button id="play-again-button">Play Again</button>
+          </div>
+      </div>
+    </div>
+
+    
     <!-- Game Board -->
     <div id="game-board" class="container p-5 text-center">
 
@@ -49,28 +73,7 @@
     </div>
 
 
-    <!-- Result Section -->
-    <div id="result-section" class="container text-center">
-      <div class="row">
-        <div class="col">
-          <div class="row my-5">
-            <h2 id="win">You Won!</h2>
-            <h2 id="bust">Bust!</h2>
-            <h2 id="lose">You Lost.</h2>
-            <h2 id="tie">Tie!</h2>
-          </div>
-          <div class="row my-5">
-            <p class="col-9">Your points:</p>
-            <p id="playerScore" class="col-3"></p>
-            <p class="col-9">Dealer's points:</p>
-            <p id="dealerScore" class="col-3"></p>
-          </div>
-        </div>
-          <div class="col align-self-center">
-            <button id="play-again-button">Play Again</button>
-          </div>
-      </div>
-    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/script.js"></script>

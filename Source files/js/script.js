@@ -205,9 +205,9 @@ function beginRound() {
 * @param {string} elementId element to which card is appended
 */
 function showHand(hand, elementId) {
-  let div = $("<div></div>");
+  let div = $('<div class="row"></div>');
   for (let i in hand) {
-    let card = $('<img src="images/' + hand[i] + '.png" alt="' + hand[i] + '">');
+    let card = $('<div class="col"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '"></div>');
     $(div).append(card);
    }
    $(elementId).append(div);
