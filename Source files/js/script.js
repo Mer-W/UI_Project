@@ -218,6 +218,8 @@ function showHand(hand, elementId) {
 */
 function hit(hand) {
   hand.push(dealCard());
+  $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
+  $("#player-cards").text(showHand(playerHand, "#player-cards"));
   if (isBust(hand) == true) {
     endGame();
   }
@@ -263,7 +265,6 @@ function isTie() {
 * Loads final phase
 */
 function endGame() {
-  gameboard.style.display = "none";
   results.style.display = "block";
   btnPlayAgain.addEventListener("click", initiateGame);
 
