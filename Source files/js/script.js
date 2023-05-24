@@ -195,8 +195,8 @@ function beginRound() {
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
-  showHand(dealerHand, "#dealer-cards");
-  showHand(playerHand, "#player-cards");
+  $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
+  $("#player-cards").text(showHand(playerHand, "#player-cards"));
 }
 
 /**
