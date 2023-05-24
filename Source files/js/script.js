@@ -195,8 +195,23 @@ function beginRound() {
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
+  showHand(dealerHand, "#dealer-cards");
+  showHand(playerHand, "#player-cards");
 }
 
+/**
+* Populates HTML elements with cards
+* @param {array} hand
+* @param {string} elementId element to which card is appended
+*/
+function showHand(hand, elementId) {
+  let ul = $("<ul></ul>");
+  for (let i in hand) {
+    let card = $("<li>" + hand[i] +  "</li>");
+    $(ul).append(card);
+   }
+   $(elementId).append(ul);
+}
 /**
 * Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
 * @param {array} hand
