@@ -1,7 +1,8 @@
 let deck;
 let topCard;
-const playerHand = [];
-const compHand = [];
+// edit: changed hands from const to var for easy clearing at new game
+var playerHand = [];
+var compHand = [];
 
 // event listener for onload setup
 window.addEventListener('load', setup);
@@ -62,6 +63,8 @@ function dealCard() {
 // todo: resolve issue: player dealt 3 cards
 function beginRound() {
   shuffleDeck();
+  playerHand = [];
+  compHand = [];
   playerHand[0] = dealCard();
   playerHand[1] = dealCard();
   compHand[0] = dealCard();
@@ -105,7 +108,7 @@ function countPoints(hand) {
   let points = 0;
 
   for (let x in hand) {
-    points += setCardPoints(hand[x]);
+    points += parseInt(setCardPoints(hand[x]));
   }
   if (points + 10 <= 21 && hasAce(hand) == true) {
       points = points + 10;
@@ -142,9 +145,14 @@ function playerHit() {
 */
 function hit(hand) {
   hand.push(dealCard());
-  if (isBust == true) {
+  if (isBust(hand) == true) {
     endGame();
   }
+  //tests
+  console.log(countPoints(hand));
+  console.log(isBust(hand));
+
+
 }
 
 /*
@@ -217,7 +225,7 @@ function initiateGame() {
   beginRound();
 
   // event listeners for hit and stand
-  btnHit.addEventListener("click", hit(playerHand));
+  btnHit.addEventListener("click", function() { hit(playerHand)});
   btnStand.addEventListener("click", dealerTurn);
 }
 
@@ -225,11 +233,12 @@ function initiateGame() {
 function endGame() {
   gameboard.style.display = "none";
   results.style.display = "flex";
+  btnPlayAgain.addEventListener("click", initiateGame);
 
   // todo: append final scores to p elements
 
   // check for bust, tie, win, lose; display message
-  if (isBust(playerHand)) {
+  if (isBust(playerHand) == true) {
     bust.style.display = "flex";
     lose.style.display = "flex";
 
@@ -242,6 +251,6 @@ function endGame() {
   } else {
     lose.style.display = "flex";
   }
-  btnPlayAgain.addEventListener("click", initiateGame);
+  
 }
 
