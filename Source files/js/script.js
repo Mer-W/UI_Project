@@ -188,7 +188,7 @@ function initiateGame() {
 function beginRound() {
   shuffleDeck();
   playerHand = [];
-  compHand = [];
+  dealerHand = [];
   playerHand[0] = dealCard();
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
@@ -214,8 +214,8 @@ function hit(hand) {
 * IDK when dealer's face down card is revealed?
 */
 function dealerTurn() {
-  while (countPoints(compHand) < 17) {
-    hit(compHand);
+  while (countPoints(dealerHand) < 17) {
+    hit(dealerHand);
   }
   endGame();
 }
