@@ -3,6 +3,7 @@ let deck;
 let topCard;
 let playerScore = 0;
 let dealerScore = 0;
+let dealerWait;
 var playerHand = [];
 var dealerHand = [];
 
@@ -231,13 +232,24 @@ function hit(hand) {
 /**
 * Plays dealer's turn. Called when player stands.
 * IDK when dealer's face down card is revealed?
+* Nick: Timer for dealer action, 800ms delay; clears on endGame()
 */
 function dealerTurn() {
-  while (countPoints(dealerHand) < 17) {
+  dealerWait = setInterval(function(){
+  if (countPoints(dealerHand) < 17) {
     hit(dealerHand);
   }
+  else{
   endGame();
-}
+  }
+}, 800)}
+
+// function dealerTurn() {
+//   while (countPoints(dealerHand) < 17) {
+//     hit(dealerHand);
+//   }
+//   endGame();
+// }
 
 /**
 * Compares uneven hands to determine winner
@@ -265,6 +277,7 @@ function isTie() {
 * Loads final phase
 */
 function endGame() {
+  clearInterval(dealerWait);
   results.style.display = "block";
   btnPlayAgain.addEventListener("click", initiateGame);
 
