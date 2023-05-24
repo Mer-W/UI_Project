@@ -25,6 +25,7 @@ var tie = document.getElementById("tie");
 var win = document.getElementById("win");
 var lose = document.getElementById("lose");
 
+
 /* Deck functions */
 
 /**
@@ -250,7 +251,9 @@ function endGame() {
   results.style.display = "flex";
   btnPlayAgain.addEventListener("click", initiateGame);
 
-  // todo: append final scores to p elements
+  //append final scores to p elements
+  $('#playerScore').text(countPoints(playerHand)); 
+  $('#dealerScore').text(countPoints(dealerHand)); 
 
   // check for bust, tie, win, lose; display message
   if (isBust(playerHand) == true) {
