@@ -1,3 +1,9 @@
+/* Intro */
+#intro {
+  color: white;
+  background-color: #5AA660;
+}
+
 /* Game Board Styles */
 #game-board {
     display: flex;
@@ -9,10 +15,10 @@
   }
   
   /* Player Section Styles */
-  #player-section,
+ #player-section,
   #dealer-section {
     width: 250px;
-    text-align: center;
+    text-align: center; 
   }
   
   h2 {
@@ -20,7 +26,7 @@
     margin-bottom: 10px;
   }
   
-  .card-area {
+  .card-area { */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

@@ -94,3 +94,43 @@ playerHit()
 (and at any point we can check if a player currently has an ace)
 
 */
+
+
+
+/* Game setup functions */
+
+
+window.addEventListener('load', setup); //onload event listener
+
+/* variables for DOM elements */
+var intro = document.getElementById("intro");
+var gameboard = document.getElementById("game-board");
+var results = document.getElementById("result-section");
+var btnStart = document.getElementById("initiate");
+
+
+/* loads first phase */
+function setup() {
+
+  gameboard.style.display = "none";
+  results.style.display = "none";
+
+  btnStart.addEventListener("click", initiate);
+
+}
+
+/* loads game phase */
+function initiate() {
+
+  intro.style.display = "none";
+  gameboard.style.display = "flex";
+
+}
+
+/* loads final phase */
+function endGame() {
+  gameboard.style.display = "none";
+  results.style.display = "flex";
+
+}
+
