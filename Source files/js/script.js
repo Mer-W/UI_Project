@@ -1,8 +1,8 @@
+// variables for cards
 let deck;
 let topCard;
 let playerScore = 0;
 let dealerScore = 0;
-// edit: changed hands from const to var for easy clearing at new game
 var playerHand = [];
 var dealerHand = [];
 
@@ -25,8 +25,11 @@ var tie = document.getElementById("tie");
 var win = document.getElementById("win");
 var lose = document.getElementById("lose");
 
-// reset deck (might consolidate this with shuffle)
-// edit: replacing T with 10 and removing case T from switch in setCardPoints. Adding sortDeck function call to shuffleDeck
+/* Deck functions */
+
+/**
+* Assembles 52-card deck array
+*/
 function sortDeck() {
   deck = [];
   let suit = ["club", "diamond", "heart", "spade"];
@@ -38,41 +41,9 @@ function sortDeck() {
   }
 }
 
-// shuffle deck
-function shuffleDeck() {
-  sortDeck();
-  for (i = deck.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-    var temp = deck[i];
-    // deck[i] = deck[j];
-    // deck[j] = temp;
-  }
-  topCard = deck[0];
-}
-
-// deal top card of deck (first element in deck array)
-function dealCard() {
-  let tmp = topCard;
-  deck.shift();
-  topCard = deck[0];
-  console.log("Card dealt: " + tmp);
-  return tmp;
-}
-
-// this is kind of temp - used just to populate numbers in console
-// edit: calling shuffleDeck in beginRound
-// todo: resolve issue: player dealt 3 cards
-function beginRound() {
-  shuffleDeck();
-  playerHand = [];
-  compHand = [];
-  playerHand[0] = dealCard();
-  playerHand[1] = dealCard();
-  dealerHand[0] = dealCard();
-  dealerHand[1] = dealCard();
-}
-
+/**
+* Assigns point value to each card
+*/
 function setCardPoints(card) {
   let tmp = card.substring(0, 1);
   switch (tmp) {
@@ -91,7 +62,36 @@ function setCardPoints(card) {
   }
 }
 
-// check for ace (would occur during scoring)
+/**
+* Calls sortDeck() and randomizes indices of deck array
+*/
+function shuffleDeck() {
+  sortDeck();
+  for (i = deck.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+    var temp = deck[i];
+  }
+  topCard = deck[0];
+}
+
+/**
+* Deals top card of deck (first element in deck array)
+*/
+function dealCard() {
+  let tmp = topCard;
+  deck.shift();
+  topCard = deck[0];
+  console.log("Card dealt: " + tmp);
+  return tmp;
+}
+
+/* Hand functions */
+
+/**
+* Checks for occurence of ace in hand
+* @param {array} hand
+*/
 function hasAce(hand) {
   let a = 0;
   for (x in hand) {
@@ -103,11 +103,9 @@ function hasAce(hand) {
   else return false;
 }
 
-/*
-* M version
-* Counts points in player's hand
-* @param {array}
-* todo: resolve issue: concatenation of 10 for ace instead of addition?
+/**
+* Counts points in a hand, calculates 
+* @param {array} hand
 */
 function countPoints(hand) {
   let points = 0;
@@ -142,7 +140,7 @@ function getScore() {
   console.log("Dealer Score: " + dealerScore);
 }
 
-/*
+/**
 * Checks if hand is bust
 * @param {array}
 */
@@ -154,85 +152,11 @@ function isBust(hand) {
   }
 }
 
-// player hits (I might rework this so either player calls this function)
-function playerHit() {
-  playerHand.push(dealCard());
-  let score = 0;
-  for (let x in playerHand) {
-    score += parseInt(setCardPoints(playerHand[x]));
-  }
-}
+/* Gameplay functions */
 
-/*
-* possible solution to above i.e. same function for either player, takes either hand as argument
-* does not set score to 0
-* Adds one card to a player's hand
-* @param {array}
+/**
+* Loads loads opening phase (intro and play button)
 */
-function hit(hand) {
-  hand.push(dealCard());
-  if (isBust(hand) == true) {
-    endGame();
-  }
-  //tests
-  console.log(countPoints(hand));
-  console.log(isBust(hand));
-
-
-}
-
-/*
-* Plays dealer's turn. Called when player stands.
-* IDK when dealer's face down card is revealed?
-*/
-function dealerTurn() {
-  while (countPoints(compHand) < 17) {
-    hit(compHand);
-  }
-  endGame();
-}
-
-/*
-* Compares uneven hands to determine winner
-*/
-function playerWins() {
- if (countPoints(compHand) < countPoints(playerHand) && isBust(playerHand) == false) {
-  return true;
- } else {
-  return false;
- }
-}
-
-/*
-* Checks for tied points
-*/
-function isTie() {
-  if (countPoints(compHand) == countPoints(playerHand)) {
-   return true;
-  } else {
-   return false;
-  }
- }
-
-// 
-
-/*
-right now it would go something like:
-
-sortDeck()
-shuffleDeck()
-beginRound()
-playerHit()
-
-(and at any point we can check if a player currently has an ace)
-
-*/
-
-
-/* Game setup functions */
-
-
-/* loads first phase */
 function setup() {
 
   gameboard.style.display = "none";
@@ -242,7 +166,9 @@ function setup() {
 
 }
 
-/* loads game phase */
+/**
+* Loads game phase
+*/
 function initiateGame() {
 
   intro.style.display = "none";
@@ -256,7 +182,69 @@ function initiateGame() {
   btnStand.addEventListener("click", dealerTurn);
 }
 
-/* loads final phase */
+/**
+* Gets deck, resets hands, deals two cards to player and dealer
+*/
+function beginRound() {
+  shuffleDeck();
+  playerHand = [];
+  compHand = [];
+  playerHand[0] = dealCard();
+  playerHand[1] = dealCard();
+  dealerHand[0] = dealCard();
+  dealerHand[1] = dealCard();
+}
+
+/**
+* Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
+* @param {array} hand
+*/
+function hit(hand) {
+  hand.push(dealCard());
+  if (isBust(hand) == true) {
+    endGame();
+  }
+  //tests
+  console.log(countPoints(hand));
+  console.log(isBust(hand));
+}
+
+/**
+* Plays dealer's turn. Called when player stands.
+* IDK when dealer's face down card is revealed?
+*/
+function dealerTurn() {
+  while (countPoints(compHand) < 17) {
+    hit(compHand);
+  }
+  endGame();
+}
+
+/**
+* Compares uneven hands to determine winner
+*/
+function playerWins() {
+ if (countPoints(dealerHand) < countPoints(playerHand) && isBust(playerHand) == false) {
+  return true;
+ } else {
+  return false;
+ }
+}
+
+/**
+* Checks for tied points
+*/
+function isTie() {
+  if (countPoints(dealerHand) == countPoints(playerHand)) {
+   return true;
+  } else {
+   return false;
+  }
+ }
+
+/**
+* Loads final phase
+*/
 function endGame() {
   gameboard.style.display = "none";
   results.style.display = "flex";
