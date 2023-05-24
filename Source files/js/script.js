@@ -1,8 +1,10 @@
 let deck;
 let topCard;
+let playerScore = 0;
+let dealerScore = 0;
 // edit: changed hands from const to var for easy clearing at new game
 var playerHand = [];
-var compHand = [];
+var dealerHand = [];
 
 // event listener for onload setup
 window.addEventListener('load', setup);
@@ -67,8 +69,8 @@ function beginRound() {
   compHand = [];
   playerHand[0] = dealCard();
   playerHand[1] = dealCard();
-  compHand[0] = dealCard();
-  compHand[1] = dealCard();
+  dealerHand[0] = dealCard();
+  dealerHand[1] = dealCard();
 }
 
 function setCardPoints(card) {
@@ -100,6 +102,7 @@ function hasAce(hand) {
 }
 
 /*
+* M version
 * Counts points in player's hand
 * @param {array}
 * todo: resolve issue: concatenation of 10 for ace instead of addition?
@@ -114,6 +117,27 @@ function countPoints(hand) {
       points = points + 10;
   }
   return points;
+}
+
+/* N version */
+/* run this every time a card is dealt */
+function checkScore(hand) {
+  let score = 0;
+  for (x in hand) {
+    score += parseInt(setCardPoints(hand[x]))
+  };
+  if ((score <= 11) && (hasAce(hand))) {
+    return score + 10;
+  }
+  else if (score <= 21) {
+    return score;
+  }
+  else return "bust";
+}
+
+function getScore() {
+  console.log("Player Score: " + playerScore);
+  console.log("Dealer Score: " + dealerScore);
 }
 
 /*
@@ -241,15 +265,28 @@ function endGame() {
   if (isBust(playerHand) == true) {
     bust.style.display = "flex";
     lose.style.display = "flex";
+    win.style.display = "none";
+    tie.style.display = "none";
+
 
   } else if (isTie() == true) {
     tie.style.display = "flex";
+    win.style.display = "none";
+    bust.style.display = "none";
+    lose.style.display = "none";
 
   } else if (playerWins() == true) {
     win.style.display = "flex";
+    bust.style.display = "none";
+    lose.style.display = "none";
+    tie.style.display = "none";
+
 
   } else {
     lose.style.display = "flex";
+    win.style.display = "none";
+    bust.style.display = "none";
+    tie.style.display = "none";
   }
   
 }
