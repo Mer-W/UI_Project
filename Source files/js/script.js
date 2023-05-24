@@ -1,10 +1,12 @@
 let deck;
 let topCard;
+let playerScore = 0;
+let dealerScore = 0;
 const playerHand = [];
-const compHand = [];
+const dealerHand = [];
 
-// reset deck (might consolidate this with shuffle)
-function sortDeck() {
+/* Begin round: sort + shuffle deck; deal two cards to both player and dealer */
+function beginRound() {
   deck = [];
   let suit = ["club", "diamond", "heart", "spade"];
   let value = ["A", 2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K"]
@@ -13,10 +15,6 @@ function sortDeck() {
       deck.push(value[j] + suit[i]);
     }
   }
-}
-
-// shuffle deck
-function shuffleDeck() {
   for (i = deck.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -25,9 +23,13 @@ function shuffleDeck() {
     // deck[j] = temp;
   }
   topCard = deck[0];
+  playerHand[0] = dealCard();
+  playerHand[1] = dealCard();
+  dealerHand[0] = dealCard();
+  dealerHand[1] = dealCard();
 }
 
-// deal top card of deck (first element in deck array)
+/* deal top card of deck (first element in deck array) */
 function dealCard() {
   let tmp = topCard;
   deck.shift();
@@ -36,12 +38,9 @@ function dealCard() {
   return tmp;
 }
 
-// this is kind of temp - used just to populate numbers in console
-function beginRound() {
-  playerHand[0] = dealCard();
-  playerHand[1] = dealCard();
-  compHand[0] = dealCard();
-  compHand[1] = dealCard();
+/* player or dealer hits */
+function hitMe(hand) {
+  hand.push(dealCard());
 }
 
 function setCardPoints(card) {
@@ -62,7 +61,22 @@ function setCardPoints(card) {
   }
 }
 
-// check for ace (would occur during scoring)
+/* run this every time a card is dealt */
+function checkScore(hand) {
+  let score = 0;
+  for (x in hand) {
+    score += parseInt(setCardPoints(hand[x]))
+  };
+  if ((score <= 11) && (hasAce(hand))) {
+    return score + 10;
+  }
+  else if (score <= 21) {
+    return score;
+  }
+  else return "bust";
+}
+
+/* check for ace */
 function hasAce(hand) {
   let a = 0;
   for (x in hand) {
@@ -74,27 +88,10 @@ function hasAce(hand) {
   else return false;
 }
 
-// player hits (I might rework this so either player calls this function)
-function playerHit() {
-  playerHand.push(dealCard());
-  let score = 0;
-  for (let x in playerHand) {
-    score += parseInt(setCardPoints(playerHand[x]));
-  }
+function getScore() {
+  console.log("Player Score: " + playerScore);
+  console.log("Dealer Score: " + dealerScore);
 }
-
-/*
-right now it would go something like:
-
-sortDeck()
-shuffleDeck()
-beginRound()
-playerHit()
-
-(and at any point we can check if a player currently has an ace)
-
-*/
-
 
 
 /* Game setup functions */
@@ -124,6 +121,7 @@ function initiate() {
 
   intro.style.display = "none";
   gameboard.style.display = "flex";
+  beginRound();
 
 }
 
