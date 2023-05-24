@@ -278,12 +278,16 @@ function isTie() {
 */
 function endGame() {
   clearInterval(dealerWait);
+  gameboard.style.display = "none";
   results.style.display = "block";
   btnPlayAgain.addEventListener("click", initiateGame);
 
   //append final scores to p elements
   $('#playerScore').text(countPoints(playerHand)); 
+  $('#player-final-hand').text(showHand(playerHand, '#player-final-hand'));
   $('#dealerScore').text(countPoints(dealerHand)); 
+  $('#dealer-final-hand').text(showHand(dealerHand, '#dealer-final-hand'));
+
 
   // check for bust, tie, win, lose; display message
   if (isBust(playerHand) == true) {
