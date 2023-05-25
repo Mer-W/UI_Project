@@ -235,6 +235,8 @@ function showConcealed() {
     updatePlayer();
    // dealer
    $("#dealer-cards").empty();
+   $('#dealerScore').empty();
+   $('#dealerScore').append("?");
    div = $('<div class="row justify-content-center"></div>');
     for (let i in dealerHand) {
       if (i == 0) {
