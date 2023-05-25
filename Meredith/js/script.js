@@ -222,7 +222,7 @@ function playSound(){
 function showHand(hand, elementId) {
   let div = $('<div class="row justify-content-center"></div>');
   for (let i in hand) {
-    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
+    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100 rounded shadow"></div>');
     $(div).append(card);
    }
    $(elementId).append(div);
@@ -240,9 +240,9 @@ function showConcealed() {
    div = $('<div class="row justify-content-center"></div>');
     for (let i in dealerHand) {
       if (i == 0) {
-        card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
+        card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100 rounded shadow"></div>');
       } else {
-        card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
+        card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100 rounded shadow"></div>');
       }
       $(div).append(card);
     }
