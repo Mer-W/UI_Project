@@ -11,20 +11,21 @@ var dealerHand = [];
 window.addEventListener('load', setup);
 
 // variables for DOM elements
-  // game phases
+// game phases
 var intro = document.getElementById("intro");
 var gameboard = document.getElementById("game-board");
 var results = document.getElementById("result-section");
-  // buttons
+// buttons
 var btnStart = document.getElementById("start-button");
-var btnHit = document.getElementById("hit-button").addEventListener("click", function() { hit(playerHand)});
+var btnHit = document.getElementById("hit-button").addEventListener("click", function () { hit(playerHand) });
 var btnStand = document.getElementById("stand-button").addEventListener("click", dealerTurn);
 var btnPlayAgain = document.getElementById("play-again-button");
-  // results messages
+// results messages
 var bust = document.getElementById("bust");
 var tie = document.getElementById("tie");
 var win = document.getElementById("win");
 var lose = document.getElementById("lose");
+
 
 
 /* Deck functions */
@@ -116,7 +117,7 @@ function countPoints(hand) {
     points += parseInt(setCardPoints(hand[x]));
   }
   if (points + 10 <= 21 && hasAce(hand) == true) {
-      points = points + 10;
+    points = points + 10;
   }
   return points;
 }
@@ -208,11 +209,49 @@ function beginRound() {
 
 }
 
-function playSound(){
-  var audio = document.getElementById("hit-sound");
-  audio.volume
-  audio.play();
+function sfxHitSound() {
+  var hitSound = document.getElementById("hit-sound");
+  hitSound.play();
 }
+
+var music = document.getElementById("bg-music")
+var musicPlaying = true;
+function sfxBgMusic() {
+  music.play();
+  music.addEventListener("ended", function () {
+    music.currentTime = 0;
+    music.play();
+
+
+  })
+}
+function setVolume(music, volume) {
+  if (music) {
+    if (music.setVolume) {
+      music.setVolume(volume);
+    } else if (music.volume) {
+      music.volume = volume;
+    }
+  }
+}
+
+function toggleMusic() {
+  if (musicPlaying) {
+    music.pause();
+    music.currentTime = 0;
+    musicPlaying = false;
+  }
+  else {
+    music.play();
+    musicPlaying = true;
+  }
+}
+sfxBgMusic()
+setVolume(music, 0.1);
+var toggleMusicButton = document.getElementById("toggle-music-button");
+toggleMusicButton.addEventListener("click", toggleMusic);
+
+
 
 /**
 * Populates HTML elements with cards
@@ -224,43 +263,43 @@ function showHand(hand, elementId) {
   for (let i in hand) {
     let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
     $(div).append(card);
-   }
-   $(elementId).append(div);
+  }
+  $(elementId).append(div);
 }
 
 /**
 * Shows card images, dealer first card face down
 */
 function showConcealed() {
-    updatePlayer();
-   // dealer
-   $("#dealer-cards").empty();
-   $('#dealerScore').empty();
-   $('#dealerScore').append("?");
-   div = $('<div class="row justify-content-center"></div>');
-    for (let i in dealerHand) {
-      if (i == 0) {
-        card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
-      } else {
-        card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
-      }
-      $(div).append(card);
+  updatePlayer();
+  // dealer
+  $("#dealer-cards").empty();
+  $('#dealerScore').empty();
+  $('#dealerScore').append("?");
+  div = $('<div class="row justify-content-center"></div>');
+  for (let i in dealerHand) {
+    if (i == 0) {
+      card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
+    } else {
+      card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
     }
-    $("#dealer-cards").append(div);
+    $(div).append(card);
+  }
+  $("#dealer-cards").append(div);
 }
 
 function updatePlayer() {
   $("#player-cards").empty();
   $('#playerScore').empty();
   $("#player-cards").append(showHand(playerHand, "#player-cards"));
-  $('#playerScore').append(countPoints(playerHand)); 
+  $('#playerScore').append(countPoints(playerHand));
 }
 
 function updateDealer() {
   $("#dealer-cards").empty();
   $('#dealerScore').empty();
   $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $('#dealerScore').append(countPoints(dealerHand));  
+  $('#dealerScore').append(countPoints(dealerHand));
 }
 
 /**
@@ -268,15 +307,16 @@ function updateDealer() {
 * @param {array} hand
 */
 function hit(hand) {
-  playSound()
-  hitWait = setTimeout(function(){
-  hand.push(dealCard());
-  updatePlayer();
+  sfxHitSound()
+  hitWait = setTimeout(function () {
+    hand.push(dealCard());
+    updatePlayer();
 
-  if (isBust(hand) == true || countPoints(hand) == 21) {
-    endGame();
-  }
-}, 90)}
+    if (isBust(hand) == true || countPoints(hand) == 21) {
+      endGame();
+    }
+  }, 90)
+}
 
 /**
 * Plays dealer's turn. Called when player stands.
@@ -285,26 +325,27 @@ function dealerTurn() {
   updateDealer();
   $("#hit-button").hide();
   $("#stand-button").hide();
-  dealerWait = setInterval(function(){
-  if (countPoints(dealerHand) < 17) {
-    hit(dealerHand);
-    updateDealer();
-  }
-  else{
-  endGame();
-  }
-}, 800)}
+  dealerWait = setInterval(function () {
+    if (countPoints(dealerHand) < 17) {
+      hit(dealerHand);
+      updateDealer();
+    }
+    else {
+      endGame();
+    }
+  }, 800)
+}
 
 
 /**
 * Compares uneven hands to determine winner
 */
 function playerWins() {
- if ((countPoints(dealerHand) < countPoints(playerHand) || isBust(dealerHand) == true) && isBust(playerHand) == false) {
-  return true;
- } else {
-  return false;
- }
+  if ((countPoints(dealerHand) < countPoints(playerHand) || isBust(dealerHand) == true) && isBust(playerHand) == false) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -312,11 +353,11 @@ function playerWins() {
 */
 function isTie() {
   if (countPoints(dealerHand) == countPoints(playerHand)) {
-   return true;
+    return true;
   } else {
-   return false;
+    return false;
   }
- }
+}
 
 /**
 * Loads final phase
