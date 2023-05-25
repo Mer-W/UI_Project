@@ -6,12 +6,20 @@
 
 /* Game Board Styles */
 #game-board, #result-section {
+  height: 90vh;
     display: none;
     justify-content: space-between;
     align-items: center;
     color: white;
     background-color: #5AA660;
   }
+  #dealer-section{
+    height: 300px; /* Adjust the height as desired */
+  }
+  #player-section{
+    height: 300px;
+  }
+
   
   /* Player Section Styles */
  /* #player-section,

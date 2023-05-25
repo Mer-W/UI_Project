@@ -29,9 +29,8 @@ var lose = document.getElementById("lose");
 
 /* Deck functions */
 
-/**
-* Assembles 52-card deck array
-*/
+
+// Assembles 52-card deck array
 function sortDeck() {
   deck = [];
   let suit = ["club", "diamond", "heart", "spade"];
@@ -43,9 +42,8 @@ function sortDeck() {
   }
 }
 
-/**
-* Assigns point value to each card
-*/
+
+// Assigns point value to each card
 function setCardPoints(card) {
   let tmp = card.substring(0, 1);
   switch (tmp) {
@@ -64,10 +62,10 @@ function setCardPoints(card) {
   }
 }
 
-/**
-* Calls sortDeck() and randomizes indices of deck array
-*/
+// Calls sortDeck() and randomizes indices of deck array
 function shuffleDeck() {
+  playerHand = [];
+  dealerHand = [];
   sortDeck();
   for (i = deck.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -77,9 +75,8 @@ function shuffleDeck() {
   topCard = deck[0];
 }
 
-/**
-* Deals top card of deck (first element in deck array)
-*/
+
+// Deals top card of deck (first element in deck array)
 function dealCard() {
   let tmp = topCard;
   deck.shift();
@@ -156,80 +153,45 @@ function setup() {
 * Loads game phase
 */
 function initiateGame() {
-
   intro.style.display = "none";
   gameboard.style.display = "block";
   results.style.display = "none";
   beginRound();
 }
 
-/**
-* Gets deck, resets hands, deals two cards to player and dealer
-*/
+function displayCards() {
+  $("#player-hand").empty();
+  $("#dealer-hand").empty();
+
+  for (var i = 0; i < playerHand.length; i++) {
+    let card = $('<div class="col-2"><img src="images/' + playerHand[i] + '.png" alt="' + playerHand[i] + '" class="h-50 object-fit-contain"></div>');
+    $("#player-hand").append(card);
+  }
+
+  for (var j = 0; j < dealerHand.length; j++) {
+    if (j === 0) {
+      $("#dealer-hand").append('<div class="col-2"><img src=images/cardBack.png alt="" class="h-50 object-fit-contain"></div>');
+    } else {
+      $("#dealer-hand").append('<div class="col-2"><img src=images/' + dealerHand[j] + '.png alt="" class="h-50 object-fit-contain"></div>');
+    }
+  }
+}
+
+
+// Gets deck, resets hands, deals two cards to player and dealer
+
 function beginRound() {
   shuffleDeck();
-  playerHand = [];
-  dealerHand = [];
-  playerHand[0] = dealCard();
-  addCardImg(playerHand, "#player-cards")
-  playerHand[1] = dealCard();
-  addCardImg(playerHand, "#player-cards")
-  dealerHand[0] = dealCard();
-  addCardImg(dealerHand, "#dealer-cards")
-  dealerHand[1] = dealCard();
-  addCardImg(dealerHand, "#dealer-cards")
-  // $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
-  // $("#player-cards").text(showHand(playerHand, "z#player-cards"));
+  dealerHand.push(deck.shift());
+  dealerHand.push(deck.shift());
+  playerHand.push(deck.shift());
+  playerHand.push(deck.shift());
+  displayCards();
 }
-
-/**
-* Populates HTML elements with cards
-* @param {array} hand
-* @param {string} elementId element to which card is appended
-*/
-function showHand(hand, elementId) {
-  let div = $('<div class="row"></div>');
-  for (let i in hand) {
-    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="h-50 object-fit-contain"></div>');
-    $(div).append(card);
-  }
-  $(elementId).append(div);
-}
-
-function addCardImg(hand, elementId) {
-  let i = (hand.length - 1);
-  let row = $(elementId).find('.row');
-  let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="h-50 object-fit-contain"></div>');
-  $(row).append(card);
-  if (isBust(hand) == true) {
-    endGame();
-  }
-}
-
-function clearCardImg(elementId) {
-  $(elementId).find(".row").empty();
-}
-/**
-* Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
-* @param {array} hand
-*/
-// Nick: Commented out previous hit, split into two functions (felt a bit easier
-// to make adjustments)
-// function hit(hand) {
-//   hand.push(dealCard());
-//   $("#dealer-cards").text(addCardImg(dealerHand, "#dealer-cards"));
-//   $("#player-cards").text(addCardImg(playerHand, "#player-cards"));
-//   if (isBust(hand) == true) {
-//     endGame();
-//   }
-//   //tests
-//   console.log(countPoints(hand));
-//   console.log(isBust(hand));
-// }
 
 function hit(hand, elementId) {
-  hand.push(dealCard());
-  addCardImg(hand, elementId);
+  hand.push(deck.shift());
+  displayCards();
   if (isBust(hand) == true) {
     endGame();
   }
@@ -284,9 +246,7 @@ function endGame() {
 
   //append final scores to p elements
   $('#playerScore').text(countPoints(playerHand));
-  $('#player-final-hand').text(showHand(playerHand, '#player-final-hand'));
   $('#dealerScore').text(countPoints(dealerHand));
-  $('#dealer-final-hand').text(showHand(dealerHand, '#dealer-final-hand'));
 
 
 
@@ -310,17 +270,12 @@ function endGame() {
     lose.style.display = "none";
     tie.style.display = "none";
 
-
   } else {
     lose.style.display = "block";
     win.style.display = "none";
     bust.style.display = "none";
     tie.style.display = "none";
   }
-  clearCardImg("#player-cards");
-  clearCardImg("#dealer-cards");
-  clearCardImg("#player-final-hand");
-  clearCardImg("#dealer-final-hand");
 
 }
 
