@@ -179,7 +179,7 @@ function beginRound() {
   dealerHand[1] = dealCard();
   addCardImg(dealerHand, "#dealer-cards")
   // $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
-  // $("#player-cards").text(showHand(playerHand, "#player-cards"));
+  // $("#player-cards").text(showHand(playerHand, "z#player-cards"));
 }
 
 /**
