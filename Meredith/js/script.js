@@ -200,8 +200,16 @@ function beginRound() {
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
   showHandConcealed();
+  $("#hit-button").show();
+  $("#stand-button").show();
   $('#playerScore').empty();
   $('#playerScore').append(countPoints(playerHand)); 
+}
+
+function playSound(){
+  var audio = document.getElementById("hit-sound");
+  audio.volume
+  audio.play();
 }
 
 /**
@@ -266,6 +274,8 @@ function updateHands() {
 * @param {array} hand
 */
 function hit(hand) {
+  playSound()
+  hitWait = setTimeout(function(){
   hand.push(dealCard());
   $("#player-cards").empty();
   $("#player-cards").append(showHand(playerHand, "#player-cards"));
@@ -275,7 +285,7 @@ function hit(hand) {
   if (isBust(hand) == true || countPoints(hand) == 21) {
     endGame();
   }
-}
+}, 90)}
 
 /**
 * Plays dealer's turn. Called when player stands.
@@ -283,6 +293,8 @@ function hit(hand) {
 * Nick: Timer for dealer action, 800ms delay; clears on endGame()
 */
 function dealerTurn() {
+  $("#hit-button").hide();
+  $("#stand-button").hide();
   $("#dealer-cards").empty();
   $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
   $('#dealerScore').empty();
