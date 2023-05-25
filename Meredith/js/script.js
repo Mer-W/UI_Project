@@ -206,6 +206,12 @@ function beginRound() {
 
 }
 
+function playSound(){
+  var audio = document.getElementById("hit-sound");
+  audio.volume
+  audio.play();
+}
+
 /**
 * Populates HTML elements with cards
 * @param {array} hand
@@ -258,19 +264,23 @@ function updateDealer() {
 * @param {array} hand
 */
 function hit(hand) {
+  playSound()
+  hitWait = setTimeout(function(){
   hand.push(dealCard());
   updatePlayer();
 
   if (isBust(hand) == true || countPoints(hand) == 21) {
     endGame();
   }
-}
+}, 90)}
 
 /**
 * Plays dealer's turn. Called when player stands.
 */
 function dealerTurn() {
   updateDealer();
+  $("#hit-button").hide();
+  $("#stand-button").hide();
   dealerWait = setInterval(function(){
   if (countPoints(dealerHand) < 17) {
     hit(dealerHand);
