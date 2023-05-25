@@ -26,6 +26,10 @@ var tie = document.getElementById("tie");
 var win = document.getElementById("win");
 var lose = document.getElementById("lose");
 
+// audio
+var music = document.getElementById("bg-music")
+var musicPlaying = true;
+
 
 
 /* Deck functions */
@@ -192,6 +196,10 @@ function initiateGame() {
 * Gets deck, resets hands, deals two cards to player and dealer
 */
 function beginRound() {
+sfxBgMusic()
+setVolume(music, 0.1);
+var toggleMusicButton = document.getElementById("toggle-music-button");
+toggleMusicButton.addEventListener("click", toggleMusic);
 
   shuffleDeck();
   playerHand = [];
@@ -214,8 +222,6 @@ function sfxHitSound() {
   hitSound.play();
 }
 
-var music = document.getElementById("bg-music")
-var musicPlaying = true;
 function sfxBgMusic() {
   music.play();
   music.addEventListener("ended", function () {
@@ -246,11 +252,6 @@ function toggleMusic() {
     musicPlaying = true;
   }
 }
-sfxBgMusic()
-setVolume(music, 0.1);
-var toggleMusicButton = document.getElementById("toggle-music-button");
-toggleMusicButton.addEventListener("click", toggleMusic);
-
 
 
 /**
