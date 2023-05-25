@@ -82,6 +82,7 @@ $(document).ready(function() {
         playerHand.push(deck.shift());
         displayCards();
         var playerScore = calculateHandScore(playerHand);
+        $("#player-score").text("Score: " + playerScore);
 
         if (playerScore > 21) {
             endGame("Player busts. You lose!");
@@ -98,6 +99,7 @@ $(document).ready(function() {
         while (dealerScore < 17) {
             dealerHand.push(deck.shift());
             dealerScore = calculateHandScore(dealerHand);
+            $("#dealer-score").text("Score: " + dealerScore);
         }
 
         displayCards();
