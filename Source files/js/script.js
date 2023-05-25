@@ -189,6 +189,8 @@ function initiateGame() {
 * Gets deck, resets hands, deals two cards to player and dealer
 */
 function beginRound() {
+  $("#dealer-cards").empty();
+  $("#player-cards").empty();
   shuffleDeck();
   playerHand = [];
   dealerHand = [];
@@ -196,8 +198,8 @@ function beginRound() {
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
-  $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
-  $("#player-cards").text(showHand(playerHand, "#player-cards"));
+  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
+  $("#player-cards").append(showHand(playerHand, "#player-cards"));
 }
 
 /**
@@ -206,9 +208,9 @@ function beginRound() {
 * @param {string} elementId element to which card is appended
 */
 function showHand(hand, elementId) {
-  let div = $('<div class="row"></div>');
+  let div = $('<div class="row justify-content-center"></div>');
   for (let i in hand) {
-    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="h-50 object-fit-contain"></div>');
+    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
     $(div).append(card);
    }
    $(elementId).append(div);
@@ -219,9 +221,11 @@ function showHand(hand, elementId) {
 */
 function hit(hand) {
   hand.push(dealCard());
-  $("#dealer-cards").text(showHand(dealerHand, "#dealer-cards"));
-  $("#player-cards").text(showHand(playerHand, "#player-cards"));
-  if (isBust(hand) == true) {
+  $("#dealer-cards").empty();
+  $("#player-cards").empty();
+  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
+  $("#player-cards").append(showHand(playerHand, "#player-cards"));
+  if (isBust(hand) == true || countPoints(hand) == 21) {
     endGame();
   }
   //tests
@@ -255,7 +259,7 @@ function dealerTurn() {
 * Compares uneven hands to determine winner
 */
 function playerWins() {
- if (countPoints(dealerHand) < countPoints(playerHand) && isBust(playerHand) == false) {
+ if ((countPoints(dealerHand) < countPoints(playerHand) || isBust(dealerHand) == true) && isBust(playerHand) == false) {
   return true;
  } else {
   return false;
@@ -283,10 +287,10 @@ function endGame() {
   btnPlayAgain.addEventListener("click", initiateGame);
 
   //append final scores to p elements
-  $('#playerScore').text(countPoints(playerHand)); 
-  $('#player-final-hand').text(showHand(playerHand, '#player-final-hand'));
-  $('#dealerScore').text(countPoints(dealerHand)); 
-  $('#dealer-final-hand').text(showHand(dealerHand, '#dealer-final-hand'));
+  $('#playerScore').append(countPoints(playerHand)); 
+  $('#player-final-hand').append(showHand(playerHand, '#player-final-hand'));
+  $('#dealerScore').append(countPoints(dealerHand)); 
+  $('#dealer-final-hand').append(showHand(dealerHand, '#dealer-final-hand'));
 
 
   // check for bust, tie, win, lose; display message
