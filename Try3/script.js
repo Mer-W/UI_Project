@@ -9,6 +9,8 @@ $(document).ready(function() {
 
     var playerHand = [];
     var dealerHand = [];
+    var bankCoins = 90;
+    var betCoins = 10;
 
     // Deal initial cards
     function dealInitialCards() {
@@ -93,6 +95,7 @@ $(document).ready(function() {
 
     // Player stands
     function playerStand() {
+        $("#dealer-hand img:first-child").remove();
         $("#dealer-hand img:first-child").attr("src", "images/" + dealerHand[0] + ".png");
 
         var dealerScore = calculateHandScore(dealerHand);
@@ -121,6 +124,22 @@ $(document).ready(function() {
     function endGame(resultText) {
         $("#result").text(resultText);
         $("#hit-btn, #stand-btn").attr("disabled", true);
+
+        
+        if (resultText.includes("win")) {
+            bankCoins += betCoins;
+        } else if (resultText.includes("lose")) {
+            bankCoins -= betCoins;
+        }
+
+        // Update bank and bet information
+        $("#bank-coins").text(bankCoins);
+        $("#bet-coins").text(betCoins);
+
+        if (bankCoins <= 0) {
+            endGame("You are bankrupt!");
+            $("#reset-btn").attr("disabled", true);
+        }
     }
 
     // Reset the game
@@ -131,6 +150,14 @@ $(document).ready(function() {
         $("#result, #player-score, #dealer-score").empty();
         $("#player-hand, #dealer-hand").empty();
         $("#hit-btn, #stand-btn").attr("disabled", false);
+        $("#reset-btn").attr("disabled", false);
+
+        // Reset bank and bet information
+        bankCoins = 90;
+        betCoins = 10;
+        $("#bank-coins").text(bankCoins);
+        $("#bet-coins").text(betCoins);
+
         dealInitialCards();
     }
 
