@@ -9,74 +9,65 @@
   <title>Blackjack Simulator</title>
 </head>
 
-<body>
-  <div class="container h-100">
-    <h1 class="p-2 text-center">Blackjack Simulator</h1>
-    <!--Game intro-->
-    <div id="intro" class="container p-5 text-center">
-      <h2>How to Play</h2>
-      <p class="p-5">You and the dealer are dealt two cards from a 52-card deck. Aces are worth 1 or 11, face cards are
-        worth 10, all others are worth their face value. On your turn, you can add one card at a time to your hand by
-        choosing "hit" or end your turn by choosing "stand". Once you and the dealer have completed your turns, the hand
-        containing the most points without exceeding 21 wins.</p>
-      <h4>Ready? Click below to play.</h4>
-      <button id="start-button" class="m-2 mt-5">Begin Game</button>
-    </div>
+      <!-- Game Board -->
+      <div id="game-board" class="container p-5 text-center">
+        <div class="row">
 
-    <!-- Game Board -->
-    <div id="game-board" class="container p-5 text-center">
-      <div class="row h-90">
-        <!-- Dealer Section -->
-        <div class="col-12">
-          <div id="dealer-section" class="row justify-content-center">
-            <h2>Dealer</h2>
-            <div id="dealer-hand" class="row card-area w-75">
-            </div>
-            <div id="dealer-actions"></div>
-          </div>
-          <div id="player-actions" class="col-12">
-            <div class="row align-items-center">
-              <button id="hit-button">Hit</button>
-            </div>
-            <div class="row align-items-center">
-              <button id="stand-button">Stand</button>
+
+          <!-- Dealer Section -->
+          <div class="col-8">
+            <div id="dealer-section" class="row h-50 justify-content-center">
+                <h3>Dealer's Hand</h3>
+                <div id="dealer-cards" class="card-area w-75"></div>
+                <div id="dealer-actions"></div>
             </div>
             <!-- Player Section -->
-            <div id="player-section" class="row justify-content-center">
-              <h2>Player</h2>
-              <div id="player-hand" class="row card-area w-75">
-              </div>
-            </div>
+          <div id="player-section" class="row h-50 justify-content-center">
+              <h3>Your Hand</h3>
+              <div id="player-cards" class="card-area w-75"></div>
           </div>
+        </div>
+
+
+
+
+        <div class="col-4">
+          <div class="row h-50 text-center">
+
+                  <!-- Result Section -->
+            <div id="result-section" class="container text-center "align-self-center"">
+                  <h2 id="win" class="mt-5">You Won!</h2>
+                  <h2 id="bust">Bust!</h2>
+                  <h2 id="lose">You Lost.</h2>
+                  <h2 id="tie">Tie!</h2>
+            </div>
+
+          </div>
+
+          <div class="row text-center">
+            <p>Dealer's points: <span id="dealerScore">?</span></p> 
+          </div>
+          <div class="row text-center">
+            <p>Your points: <span id="playerScore"></span></p>
+          </div>
+
+          <div class="row align-items-center">
+            <div id="game-buttons">
+              <button id="hit-button">Hit</button>
+              <button id="stand-button">Stand</button>
+            </div>
+            <button id="play-again-button">Play Again</button>
+          </div>
+
+
         </div>
       </div>
     </div>
 
 
-    <!-- Result Section -->
-    <div id="result-section" class="container text-center">
 
-      <div class="row">
-        <div class="col-8">
-          <div id="player-final-hand" class="row h-50 justify-content-center"></div>
-          <div class="row text-center">
-            <p id="playerScore" class="col">Your points: </p>
-          </div>
-          <div id="dealer-final-hand" class="row h-50 justify-content-center"></div>
-          <div class="row text-center">
-            <p id="dealerScore" class="col">Dealer's points: </p>
-          </div>
-        </div>
-        <div class="col-3 align-self-center">
-          <div class="row">
-            <h2 id="win" class="mt-5">You Won!</h2>
-            <h2 id="bust">Bust!</h2>
-            <h2 id="lose">You Lost.</h2>
-            <h2 id="tie">Tie!</h2>
-          </div>
-          <button id="play-again-button">Play Again</button>
-        </div>
-      </div>
+
+
     </div>
 
 

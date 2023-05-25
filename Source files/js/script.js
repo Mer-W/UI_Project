@@ -163,6 +163,7 @@ function setup() {
 
   gameboard.style.display = "none";
   results.style.display = "none";
+
   // event listener for next phase
   btnStart.addEventListener("click", initiateGame);
 
@@ -175,22 +176,22 @@ function initiateGame() {
 
   intro.style.display = "none";
   gameboard.style.display = "block";
+  $('#game-buttons').show();
+  $('#play-again-button').hide();
   results.style.display = "none";
+  tie.style.display = "none";
+  win.style.display = "none";
+  bust.style.display = "none";
+  lose.style.display = "none";
 
   beginRound();
-
-  // event listeners for hit and stand
-  // Nick: commented out li.183-184, added listeners upon declaring buttons (li.19-20)
-  // btnHit.addEventListener("click", function() { hit(playerHand)});
-  // btnStand.addEventListener("click", dealerTurn);
 }
 
 /**
 * Gets deck, resets hands, deals two cards to player and dealer
 */
 function beginRound() {
-  $("#dealer-cards").empty();
-  $("#player-cards").empty();
+
   shuffleDeck();
   playerHand = [];
   dealerHand = [];
@@ -198,8 +199,7 @@ function beginRound() {
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
+  updateHands();
 }
 
 /**
@@ -215,22 +215,32 @@ function showHand(hand, elementId) {
    }
    $(elementId).append(div);
 }
+
+/**
+* Refreshes point and card displays
+*/
+function updateHands() {
+  $("#dealer-cards").empty();
+  $("#player-cards").empty();
+  $('#playerScore').empty();
+  $('#dealerScore').empty();
+  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
+  $("#player-cards").append(showHand(playerHand, "#player-cards"));
+  $('#playerScore').append(countPoints(playerHand)); 
+  $('#dealerScore').append(countPoints(dealerHand));  
+}
+
 /**
 * Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
 * @param {array} hand
 */
 function hit(hand) {
   hand.push(dealCard());
-  $("#dealer-cards").empty();
-  $("#player-cards").empty();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
+  updateHands();
+  
   if (isBust(hand) == true || countPoints(hand) == 21) {
     endGame();
   }
-  //tests
-  console.log(countPoints(hand));
-  console.log(isBust(hand));
 }
 
 /**
@@ -248,12 +258,6 @@ function dealerTurn() {
   }
 }, 800)}
 
-// function dealerTurn() {
-//   while (countPoints(dealerHand) < 17) {
-//     hit(dealerHand);
-//   }
-//   endGame();
-// }
 
 /**
 * Compares uneven hands to determine winner
@@ -282,44 +286,26 @@ function isTie() {
 */
 function endGame() {
   clearInterval(dealerWait);
-  gameboard.style.display = "none";
+  $('#game-buttons').hide();
+  $('#play-again-button').show();
   results.style.display = "block";
   btnPlayAgain.addEventListener("click", initiateGame);
-
-  //append final scores to p elements
-  $('#playerScore').append(countPoints(playerHand)); 
-  $('#player-final-hand').append(showHand(playerHand, '#player-final-hand'));
-  $('#dealerScore').append(countPoints(dealerHand)); 
-  $('#dealer-final-hand').append(showHand(dealerHand, '#dealer-final-hand'));
 
 
   // check for bust, tie, win, lose; display message
   if (isBust(playerHand) == true) {
     bust.style.display = "block";
     lose.style.display = "block";
-    win.style.display = "none";
-    tie.style.display = "none";
-
 
   } else if (isTie() == true) {
     tie.style.display = "block";
-    win.style.display = "none";
-    bust.style.display = "none";
-    lose.style.display = "none";
+
 
   } else if (playerWins() == true) {
     win.style.display = "block";
-    bust.style.display = "none";
-    lose.style.display = "none";
-    tie.style.display = "none";
-
 
   } else {
     lose.style.display = "block";
-    win.style.display = "none";
-    bust.style.display = "none";
-    tie.style.display = "none";
   }
-  
 }
 
