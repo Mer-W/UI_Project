@@ -199,11 +199,13 @@ function beginRound() {
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
-  showHandConcealed();
+  showConcealed();
   $("#hit-button").show();
   $("#stand-button").show();
-  $('#playerScore').empty();
-  $('#playerScore').append(countPoints(playerHand)); 
+  if (countPoints(playerHand) == 21) {
+    dealerTurn();
+  }
+
 }
 
 function playSound(){
@@ -220,53 +222,40 @@ function playSound(){
 function showHand(hand, elementId) {
   let div = $('<div class="row justify-content-center"></div>');
   for (let i in hand) {
-    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
+    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100 rounded shadow"></div>');
     $(div).append(card);
    }
    $(elementId).append(div);
 }
 
 /**
-* Populates HTML elements with card images, dealer first card face down
+* Shows card images, dealer first card face down
 */
-function showHandConcealed() {
-  $("#dealer-cards").empty();
-  $("#player-cards").empty();
-
-  // player
-  let div = $('<div class="row justify-content-center"></div>');
-  for (let i in playerHand) {
-    let card = $('<div class="col-3"><img src="images/' + playerHand[i] + '.png" alt="' + playerHand[i] + '" class="w-100"></div>');
-    $(div).append(card);
-   }
-   $("#player-cards").append(div);
-
+function showConcealed() {
+    updatePlayer();
    // dealer
+   $("#dealer-cards").empty();
+   $('#dealerScore').empty().append("?");
    div = $('<div class="row justify-content-center"></div>');
-   for (let i in dealerHand) {
-    if (i == 0) {
-      card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
-    } else {
-      card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
-    }
-     $(div).append(card);
+    for (let i in dealerHand) {
+      if (i == 0) {
+        card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100 rounded shadow"></div>');
+      } else {
+        card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100 rounded shadow"></div>');
+      }
+      $(div).append(card);
     }
     $("#dealer-cards").append(div);
 }
 
+function updatePlayer() {
+  $("#player-cards").empty().append(showHand(playerHand, "#player-cards"));
+  $('#playerScore').empty().append(countPoints(playerHand));
+}
 
-/**
-* Refreshes point and card displays
-*/
-function updateHands() {
-  $("#dealer-cards").empty();
-  $("#player-cards").empty();
-  $('#playerScore').empty();
-  $('#dealerScore').empty();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
-  $('#playerScore').append(countPoints(playerHand)); 
-  $('#dealerScore').append(countPoints(dealerHand));  
+function updateDealer() {
+  $("#dealer-cards").empty().append(showHand(dealerHand, "#dealer-cards"));
+  $('#dealerScore').empty().append(countPoints(dealerHand));
 }
 
 /**
@@ -277,10 +266,7 @@ function hit(hand) {
   playSound()
   hitWait = setTimeout(function(){
   hand.push(dealCard());
-  $("#player-cards").empty();
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
-  $('#playerScore').empty();
-  $('#playerScore').append(countPoints(playerHand)); 
+  updatePlayer();
 
   if (isBust(hand) == true || countPoints(hand) == 21) {
     endGame();
@@ -289,20 +275,15 @@ function hit(hand) {
 
 /**
 * Plays dealer's turn. Called when player stands.
-* IDK when dealer's face down card is revealed?
-* Nick: Timer for dealer action, 800ms delay; clears on endGame()
 */
 function dealerTurn() {
+  updateDealer();
   $("#hit-button").hide();
   $("#stand-button").hide();
-  $("#dealer-cards").empty();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $('#dealerScore').empty();
-  $('#dealerScore').append(countPoints(dealerHand));  
   dealerWait = setInterval(function(){
   if (countPoints(dealerHand) < 17) {
     hit(dealerHand);
-    updateHands();
+    updateDealer();
   }
   else{
   endGame();
@@ -337,7 +318,8 @@ function isTie() {
 */
 function endGame() {
   clearInterval(dealerWait);
-  updateHands();
+  updateDealer();
+  updatePlayer();
   $('#game-buttons').hide();
   $('#play-again-button').show();
   results.style.display = "block";
