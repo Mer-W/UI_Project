@@ -200,6 +200,8 @@ function beginRound() {
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
   showConcealed();
+  $("#hit-button").show();
+  $("#stand-button").show();
   if (countPoints(playerHand) == 21) {
     dealerTurn();
   }
