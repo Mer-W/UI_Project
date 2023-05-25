@@ -235,8 +235,7 @@ function showConcealed() {
     updatePlayer();
    // dealer
    $("#dealer-cards").empty();
-   $('#dealerScore').empty();
-   $('#dealerScore').append("?");
+   $('#dealerScore').empty().append("?");
    div = $('<div class="row justify-content-center"></div>');
     for (let i in dealerHand) {
       if (i == 0) {
@@ -250,17 +249,13 @@ function showConcealed() {
 }
 
 function updatePlayer() {
-  $("#player-cards").empty();
-  $('#playerScore').empty();
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
-  $('#playerScore').append(countPoints(playerHand)); 
+  $("#player-cards").empty().append(showHand(playerHand, "#player-cards"));
+  $('#playerScore').empty().append(countPoints(playerHand));
 }
 
 function updateDealer() {
-  $("#dealer-cards").empty();
-  $('#dealerScore').empty();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $('#dealerScore').append(countPoints(dealerHand));  
+  $("#dealer-cards").empty().append(showHand(dealerHand, "#dealer-cards"));
+  $('#dealerScore').empty().append(countPoints(dealerHand));
 }
 
 /**
