@@ -224,8 +224,13 @@ function sfxHitSound() {
 }
 
 function sfxShuffleSound() {
-  var hitSound = document.getElementById("shuffle-sound");
-  hitSound.play();
+  var shuffleSound = document.getElementById("shuffle-sound");
+  shuffleSound.play();
+}
+
+function sfxWinSound() {
+  var winSound = document.getElementById("win-sound");
+  winSound.play();
 }
 
 function sfxBgMusic() {
@@ -233,8 +238,6 @@ function sfxBgMusic() {
   music.addEventListener("ended", function () {
     music.currentTime = 0;
     music.play();
-
-
   })
 }
 function setVolume(music, volume) {
@@ -389,7 +392,9 @@ function endGame() {
 
 
   } else if (playerWins() == true) {
+    sfxWinSound();
     win.style.display = "block";
+    
 
   } else {
     lose.style.display = "block";
