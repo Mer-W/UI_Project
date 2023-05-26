@@ -260,12 +260,10 @@ function toggleMusic() {
     music.pause();
     music.currentTime = 0;
     musicPlaying = false;
-    $(this).html("▶️");
   }
   else {
     music.play();
     musicPlaying = true;
-    $(this).html("⏸️");
   }
 }
 
