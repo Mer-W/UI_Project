@@ -33,7 +33,16 @@ var lose = document.getElementById("lose");
 var music = document.getElementById("bg-music");
 var musicPlaying = true;
 
+// bet listeners
+$("#token-5").on( "click", function() {
+  bet = 5;
+  beginRound();
+});
 
+$("#token-10").on( "click", function() {
+  bet = 10;
+  beginRound();
+});
 
 /* Deck functions */
 
@@ -201,17 +210,7 @@ function initiateGame() {
 
   bet = 0;
 
-  $("#token-5").on( "click", function() {
-    bet = 5;
-    $('#balance').empty().append(balance);
-    beginRound();
-  });
 
-  $("#token-10").on( "click", function() {
-    bet == 10;
-    $('#balance').empty().append(balance);
-    beginRound();
-  });
   
 }
 
@@ -234,13 +233,7 @@ function beginRound() {
   $('#token-5').attr("disabled", true);
   $('#token-10').attr("disabled", true);
 
-  if (bet = 5) {
-    balance -= 5;
-
-  } else if (bet = 10) {
-    balance -= 10;
-  }
-
+  balance -= bet;
   $('#balance').empty().append(balance);
 
   if (countPoints(playerHand) == 21) {
@@ -428,12 +421,7 @@ function endGame() {
   } else if (isTie() == true) {
     tie.style.display = "block";
     // return bet
-      if (bet == 5) {
-    balance += 5;
-
-  } else if (bet == 10) {
-    balance += 10;
-  }
+    balance += bet;
     $('#balance').empty().append(balance);
 
 
@@ -441,12 +429,7 @@ function endGame() {
     sfxWinSound();
     win.style.display = "block";
     // return double bet
-    if (bet == 5) {
-      balance += 10;
-  
-    } else if (bet == 10) {
-      balance += 20;
-    }
+    balance += bet * 2;
     $('#balance').empty().append(balance);
 
   } else {
