@@ -15,7 +15,7 @@
         <h2>How to Play</h2>
         <p class="p-5">You and the dealer are dealt two cards from a 52-card deck. Aces are worth 1 or 11, face cards are worth 10, all others are worth their face value. On your turn, you can add one card at a time to your hand by choosing "hit" or end your turn by choosing "stand". Once you and the dealer have completed your turns, the hand containing the most points without exceeding 21 wins.</p>
         <h4>Ready? Click below to play.</h4>
-        <button id="start-button" class="m-2 mt-5">Begin Game</button>
+        <button id="start-button" class="m-2 mt-5 bt rounded">Begin Game</button>
       </div>
 
       <!-- Sound Section-->
@@ -51,11 +51,11 @@
           <div class="row h-50 text-center">
 
                   <!-- Result Section -->
-            <div id="result-section" class="container text-center "align-self-center"">
-                  <h2 id="win" class="mt-5">You Won!</h2>
-                  <h2 id="bust">Bust!</h2>
-                  <h2 id="lose">You Lost.</h2>
-                  <h2 id="tie">Tie!</h2>
+            <div id="result-section" class="container text-center align-items-end">
+                  <h1 id="win" class="mt-5">You Won!</h1>
+                  <h1 id="bust">Bust!</h1>
+                  <h1 id="lose">You Lost.</h1>
+                  <h1 id="tie">Tie!</h1>
             </div>
 
           </div>
@@ -67,13 +67,11 @@
             <p>Your points: <span id="playerScore"></span></p>
           </div>
 
-          <div class="row align-items-center">
-            <div id="game-buttons">
-              <button id="hit-button">Hit</button>
-              <button id="stand-button">Stand</button>
-            </div>
-            <button id="play-again-button">Play Again</button>
+          <div id="game-buttons" class="row mt-3 justify-content-evenly align-items-end">
+              <button id="hit-button" class="bt rounded col-5">Hit</button>
+              <button id="stand-button" class="bt rounded col-5">Stand</button>
           </div>
+          <button id="play-again-button" class="bt rounded mt-3">Play Again</button>
 
 
         </div>

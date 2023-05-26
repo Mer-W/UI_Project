@@ -71,3 +71,17 @@
     cursor: pointer;
   }
   
+  .bt {
+    background-color: orchid;
+    border: 1px solid gold;
+    
+  }
+
+  #start-button {
+    background-color: goldenrod;
+  }
+
+  .bt:hover {
+    background-color: darkorchid;
+    box-shadow: 0 0 20px gold;
+  }
