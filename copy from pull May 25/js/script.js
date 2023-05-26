@@ -30,7 +30,7 @@ var win = document.getElementById("win");
 var lose = document.getElementById("lose");
 
 // audio
-var music = document.getElementById("bg-music")
+var music = document.getElementById("bg-music");
 var musicPlaying = true;
 
 
@@ -291,10 +291,12 @@ function toggleMusic() {
     music.pause();
     music.currentTime = 0;
     musicPlaying = false;
+    $(this).html("▶️");
   }
   else {
     music.play();
     musicPlaying = true;
+    $(this).html("⏸️");
   }
 }
 
