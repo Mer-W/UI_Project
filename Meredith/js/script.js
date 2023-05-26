@@ -6,6 +6,8 @@ let dealerScore = 0;
 let dealerWait;
 var playerHand = [];
 var dealerHand = [];
+// bank balance
+var bank = 100;
 
 // event listener for onload setup
 window.addEventListener('load', setup);
@@ -189,6 +191,7 @@ function initiateGame() {
   win.style.display = "none";
   bust.style.display = "none";
   lose.style.display = "none";
+
 
   beginRound();
 }

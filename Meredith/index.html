@@ -10,7 +10,7 @@
   <body>
     
     <div class="container h-100">
-      <h1 class="p-2 text-center">Blackjack Simulator</h1>
+      <h1 id="title" class="p-2 text-center">Blackjack Simulator</h1>
       <!--Game intro-->
       <div id="intro" class="container p-5 text-center">
         <h2>How to Play</h2>
@@ -25,7 +25,14 @@
       <audio id="shuffle-sound" src="sounds/shuffle.mp3"></audio>
       <audio id="win-sound" src="sounds/win-fanfare.mp3"></audio>
       <audio id="lose-sound" src="sounds/lose-sound.mp3"></audio>
-      <button id="toggle-music-button" class="toggle-music-button">⏸️</button>
+
+
+      <div  id="toggle-music-button" class="container">
+        <div class="toggle-music-info">Music Toggle</div>
+        <button class="toggle-music-button rounded"></button>
+      </div>
+
+
 
       <!-- Game Board -->
       <div id="game-board" class="container p-5 text-center">
@@ -51,7 +58,7 @@
 
 
         <div class="col-4">
-          <div class="row h-50 text-center">
+          <div class="row h-25 text-center">
 
                   <!-- Result Section -->
             <div id="result-section" class="container text-center align-items-end">
@@ -69,13 +76,20 @@
           <div class="row text-center">
             <p>Your points: <span id="playerScore"></span></p>
           </div>
-
+          <button id="play-again-button" class="bt rounded mt-3">Play Again</button>
           <div id="game-buttons" class="row mt-3 justify-content-evenly align-items-end">
               <button id="hit-button" class="bt rounded col-5">Hit</button>
               <button id="stand-button" class="bt rounded col-5">Stand</button>
           </div>
-          <button id="play-again-button" class="bt rounded mt-3">Play Again</button>
 
+
+          <div id="bet-buttons" class="row m-3 justify-content-evenly align-items-start">
+            <button id="token-5" class="bt col-5 mt-3">Bet 5</button>
+            <button id="token-10" class="bt col-5 mt-3">Bet 10</button>
+        </div>
+        <div class="row text-center">
+          <p>Bank: <span id="balance">100</span></p> 
+        </div>
 
         </div>
       </div>
