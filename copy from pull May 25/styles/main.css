@@ -114,10 +114,23 @@
     padding: 6px 6px;
     border-radius: 40px;
 }
-#token-5 {
-  background-color: rgb(249, 164, 107);
-  width: 80px;
-  height: 80px;
-  padding: 6px 6px;
-  border-radius: 40px;
-}
+  #token-5 {
+    background-color: rgb(249, 164, 107);
+    width: 80px;
+    height: 80px;
+    padding: 6px 6px;
+    border-radius: 40px;
+  }
+
+  #token-10:disabled {
+    background-color: rgba(255, 217, 0, 0.4);
+    border: lightgrey;
+    color: lightgrey;
+  }
+
+  #token-5:disabled {
+    background-color: rgba(249, 164, 107, 0.4);
+    border: lightgrey;
+    color: lightgrey;
+  }
+

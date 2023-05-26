@@ -187,6 +187,8 @@ function initiateGame() {
   gameboard.style.display = "block";
   $('#game-buttons').hide();
   $('#play-again-button').hide();
+  $('#token-5').attr("disabled", false);
+  $('#token-10').attr("disabled", false);
   results.style.display = "none";
   tie.style.display = "none";
   win.style.display = "none";
@@ -197,16 +199,16 @@ function initiateGame() {
   updatePlayer();
   updateDealer();
 
+  bet = 0;
+
   $("#token-5").on( "click", function() {
-    balance -= 5;
     bet = 5;
     $('#balance').empty().append(balance);
     beginRound();
   });
 
   $("#token-10").on( "click", function() {
-    balance -= 10;
-    bet = 10;
+    bet == 10;
     $('#balance').empty().append(balance);
     beginRound();
   });
@@ -229,6 +231,18 @@ function beginRound() {
   dealerHand[1] = dealCard();
   showConcealed();
   $("#game-buttons").show();
+  $('#token-5').attr("disabled", true);
+  $('#token-10').attr("disabled", true);
+
+  if (bet = 5) {
+    balance -= 5;
+
+  } else if (bet = 10) {
+    balance -= 10;
+  }
+
+  $('#balance').empty().append(balance);
+
   if (countPoints(playerHand) == 21) {
     dealerTurn();
   }
@@ -355,8 +369,7 @@ function hit(hand) {
 */
 function dealerTurn() {
   updateDealer();
-  $("#hit-button").hide();
-  $("#stand-button").hide();
+
   dealerWait = setInterval(function () {
     if (countPoints(dealerHand) < 17) {
       hit(dealerHand);
@@ -413,7 +426,12 @@ function endGame() {
   } else if (isTie() == true) {
     tie.style.display = "block";
     // return bet
-    balance += bet;
+      if (bet == 5) {
+    balance += 5;
+
+  } else if (bet == 10) {
+    balance += 10;
+  }
     $('#balance').empty().append(balance);
 
 
@@ -421,7 +439,12 @@ function endGame() {
     sfxWinSound();
     win.style.display = "block";
     // return double bet
-    balance += bet * 2;
+    if (bet == 5) {
+      balance += 10;
+  
+    } else if (bet == 10) {
+      balance += 20;
+    }
     $('#balance').empty().append(balance);
 
   } else {
