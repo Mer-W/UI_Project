@@ -197,10 +197,10 @@ function initiateGame() {
 * Gets deck, resets hands, deals two cards to player and dealer
 */
 function beginRound() {
-sfxBgMusic()
-setVolume(music, 0.1);
-var toggleMusicButton = document.getElementById("toggle-music-button");
-toggleMusicButton.addEventListener("click", toggleMusic);
+  sfxBgMusic()
+  setVolume(music, 0.1);
+  var toggleMusicButton = document.getElementById("toggle-music-button");
+  toggleMusicButton.addEventListener("click", toggleMusic);
 
   shuffleDeck();
   playerHand = [];
@@ -224,8 +224,18 @@ function sfxHitSound() {
 }
 
 function sfxShuffleSound() {
-  var hitSound = document.getElementById("shuffle-sound");
-  hitSound.play();
+  var shuffleSound = document.getElementById("shuffle-sound");
+  shuffleSound.play();
+}
+
+function sfxWinSound() {
+  var winSound = document.getElementById("win-sound");
+  winSound.play();
+}
+
+function sfxLoseSound() {
+  var loseSound = document.getElementById("lose-sound");
+  loseSound.play();
 }
 
 function sfxBgMusic() {
@@ -233,8 +243,6 @@ function sfxBgMusic() {
   music.addEventListener("ended", function () {
     music.currentTime = 0;
     music.play();
-
-
   })
 }
 function setVolume(music, volume) {
@@ -381,6 +389,7 @@ function endGame() {
 
   // check for bust, tie, win, lose; display message
   if (isBust(playerHand) == true) {
+    sfxLoseSound();
     bust.style.display = "block";
     lose.style.display = "block";
 
@@ -389,10 +398,15 @@ function endGame() {
 
 
   } else if (playerWins() == true) {
+    sfxWinSound();
     win.style.display = "block";
 
+
   } else {
+
     lose.style.display = "block";
+    sfxLoseSound();
   }
+
 }
 
