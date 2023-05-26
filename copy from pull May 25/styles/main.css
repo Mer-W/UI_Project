@@ -135,3 +135,10 @@
     color: lightgrey;
   }
 
+  #token-10:disabled:hover {
+    box-shadow: none;
+  }
+
+  #token-5:disabled:hover {
+    box-shadow: none;
+  }
