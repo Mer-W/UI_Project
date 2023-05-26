@@ -53,7 +53,7 @@
         <div class="col-4">
           <div class="row h-50 text-center">
 
-                  <!-- Result Section -->
+            <!-- Result Section -->
             <div id="result-section" class="container text-center align-items-end">
                   <h1 id="win" class="mt-5">You Won!</h1>
                   <h1 id="bust">Bust!</h1>
@@ -63,6 +63,7 @@
 
           </div>
 
+          <!--scores-->
           <div class="row text-center">
             <p>Dealer's points: <span id="dealerScore">?</span></p> 
           </div>
@@ -70,12 +71,25 @@
             <p>Your points: <span id="playerScore"></span></p>
           </div>
 
+          <!--hit stand buttons-->
           <div id="game-buttons" class="row mt-3 justify-content-evenly align-items-end">
               <button id="hit-button" class="bt rounded col-5">Hit</button>
               <button id="stand-button" class="bt rounded col-5">Stand</button>
           </div>
+
+          <!--play again button-->
           <button id="play-again-button" class="bt rounded mt-3">Play Again</button>
 
+          <!--betting tokens-->
+          <div id="bet-buttons" class="row m-3 justify-content-evenly align-items-start">
+            <button id="token-5" class="bt col-5 mt-3">Bet 5</button>
+            <button id="token-10" class="bt col-5 mt-3">Bet 10</button>
+          </div>
+
+          <!--bank balance-->
+          <div class="row text-center">
+            <p>Bank: <span id="balance">100</span></p> 
+          </div>
 
         </div>
       </div>

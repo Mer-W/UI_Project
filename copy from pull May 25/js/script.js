@@ -7,7 +7,8 @@ let dealerWait;
 var playerHand = [];
 var dealerHand = [];
 // bank balance
-var bank = 100;
+var balance = 100;
+var bet = 0;
 
 // event listener for onload setup
 window.addEventListener('load', setup);
@@ -184,7 +185,7 @@ function initiateGame() {
 
   intro.style.display = "none";
   gameboard.style.display = "block";
-  $('#game-buttons').show();
+  $('#game-buttons').hide();
   $('#play-again-button').hide();
   results.style.display = "none";
   tie.style.display = "none";
@@ -192,8 +193,20 @@ function initiateGame() {
   bust.style.display = "none";
   lose.style.display = "none";
 
+  $("#token-5").on( "click", function() {
+    balance -= 5;
+    bet = 5;
+    $('#balance').empty().append(balance);
+    $('#bet').empty().append(bet);
+    beginRound();
+  });
 
-  beginRound();
+  $("#token-10").on( "click", function() {
+    balance -= 10;
+    bet = 10;
+    beginRound();
+  });
+  
 }
 
 /**
@@ -213,8 +226,7 @@ function beginRound() {
   dealerHand[0] = dealCard();
   dealerHand[1] = dealCard();
   showConcealed();
-  $("#hit-button").show();
-  $("#stand-button").show();
+  $("#game-buttons").show();
   if (countPoints(playerHand) == 21) {
     dealerTurn();
   }
