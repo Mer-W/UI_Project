@@ -91,6 +91,18 @@
     border: none;
     cursor: pointer;
   }
+
+  .toggle-music-info {
+    position: fixed;
+    font-size:small;
+    color:rgb(151, 151, 151);
+    top: 15px;
+    right: 50px;
+    width: 80px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+  }
   
   .bt {
     background-color: orchid;
