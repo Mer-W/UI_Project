@@ -192,18 +192,22 @@ function initiateGame() {
   win.style.display = "none";
   bust.style.display = "none";
   lose.style.display = "none";
+  playerHand = [];
+  dealerHand = [];
+  updatePlayer();
+  updateDealer();
 
   $("#token-5").on( "click", function() {
     balance -= 5;
     bet = 5;
     $('#balance').empty().append(balance);
-    $('#bet').empty().append(bet);
     beginRound();
   });
 
   $("#token-10").on( "click", function() {
     balance -= 10;
     bet = 10;
+    $('#balance').empty().append(balance);
     beginRound();
   });
   
@@ -219,8 +223,6 @@ function beginRound() {
   toggleMusicButton.addEventListener("click", toggleMusic);
 
   shuffleDeck();
-  playerHand = [];
-  dealerHand = [];
   playerHand[0] = dealCard();
   playerHand[1] = dealCard();
   dealerHand[0] = dealCard();
@@ -402,7 +404,7 @@ function endGame() {
   btnPlayAgain.addEventListener("click", initiateGame);
 
 
-  // check for bust, tie, win, lose; display message
+  // check for bust, tie, win, lose; display message; update bank
   if (isBust(playerHand) == true) {
     sfxLoseSound();
     bust.style.display = "block";
@@ -410,12 +412,17 @@ function endGame() {
 
   } else if (isTie() == true) {
     tie.style.display = "block";
+    // return bet
+    balance += bet;
+    $('#balance').empty().append(balance);
 
 
   } else if (playerWins() == true) {
     sfxWinSound();
     win.style.display = "block";
-
+    // return double bet
+    balance += bet * 2;
+    $('#balance').empty().append(balance);
 
   } else {
 
