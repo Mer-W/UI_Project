@@ -74,6 +74,7 @@ function setCardPoints(card) {
 */
 function shuffleDeck() {
   sortDeck();
+  sfxShuffleSound();
   for (i = deck.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -222,6 +223,11 @@ function sfxHitSound() {
   hitSound.play();
 }
 
+function sfxShuffleSound() {
+  var hitSound = document.getElementById("shuffle-sound");
+  hitSound.play();
+}
+
 function sfxBgMusic() {
   music.play();
   music.addEventListener("ended", function () {
@@ -334,7 +340,7 @@ function dealerTurn() {
     else {
       endGame();
     }
-  }, 800)
+  }, 600)
 }
 
 
