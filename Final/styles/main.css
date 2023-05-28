@@ -143,7 +143,7 @@
     box-shadow: none;
   }
 
-  /* Drop shadow for cards (only elements using col-3) */
-  .col-3{
+  /* Drop shadow for cards */
+  .card-look{
     filter: drop-shadow(2px 2px 3px hsl(131, 10%, 30%));
   }

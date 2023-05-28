@@ -11,17 +11,17 @@ var bet = 0;
 // event listeners
 $(document).ready(setup);
 $("#start-button").on("click", initiateGame);
-$('#hit-button').on("click", function() { hit(playerHand); });
+$('#hit-button').on("click", function () { hit(playerHand); });
 $('#stand-button').on("click", dealerTurn);
 $('#play-again-button').on("click", initiateGame);
-$("#token-5").on( "click", function() { bet = 5; beginRound(); });
-$("#token-10").on( "click", function() { bet = 10; beginRound(); });
+$("#token-5").on("click", function () { bet = 5; beginRound(); });
+$("#token-10").on("click", function () { bet = 10; beginRound(); });
 $("#toggle-music-button").on("click", toggleMusic);
 
 // audio
-var music = document.getElementById("bg-music");
+var music = $("#bg-music")[0];
 var musicPlaying = true;
-music.addEventListener("ended", function () {
+music.on("ended", function () {
   music.currentTime = 0;
   music.play();
 })
@@ -143,7 +143,7 @@ function hit(hand) {
     if (isBust(hand) == true || countPoints(hand) == 21) {
       endGame();
     }
-  }, 90)
+  }, 70)
 }
 
 /* Background audio */
@@ -166,13 +166,13 @@ function setVolume(music, volume) {
 */
 function toggleMusic() {
   if (musicPlaying) {
-    music.pause();
-    music.currentTime = 0;
+    $("#sound-files audio").prop("volume", 0);
     musicPlaying = false;
     $(this).html("▶️");
   }
   else {
-    music.play();
+    $("#sound-files > audio").prop("volume", 0.1);
+    $("#sfx audio").prop("volume", 1);
     musicPlaying = true;
     $(this).html("⏸️");
   }
@@ -192,7 +192,9 @@ function setup() {
 * Loads game phase
 */
 function initiateGame() {
-  music.play();
+  if (musicPlaying) {
+    music.play();
+  }
   setVolume(music, 0.1);
   // hide/show game elements
   $('#game-board').show();
@@ -254,7 +256,7 @@ function beginRound() {
 function showHand(hand, elementId) {
   let div = $('<div class="row justify-content-center"></div>');
   for (let i in hand) {
-    let card = $('<div class="col-3"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
+    let card = $('<div class="col-3 card-look"><img src="images/' + hand[i] + '.png" alt="' + hand[i] + '" class="w-100"></div>');
     $(div).append(card);
   }
   $(elementId).append(div);
@@ -270,9 +272,9 @@ function showConcealed() {
   div = $('<div class="row justify-content-center"></div>');
   for (let i in dealerHand) {
     if (i == 0) { // face down card
-      card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
+      card = $('<div class="col-3 card-look"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
     } else {
-      card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
+      card = $('<div class="col-3 card-look"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
     }
     $(div).append(card);
   }
@@ -310,7 +312,7 @@ function dealerTurn() {
     else {
       endGame();
     }
-  }, 600)
+  }, 400)
 }
 
 /**
