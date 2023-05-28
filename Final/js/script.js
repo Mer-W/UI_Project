@@ -215,6 +215,10 @@ function initiateGame() {
   updatePlayer();
   updateDealer();
   bet = 0;
+  if (!(balance > 0)) {
+    balance = 100;
+    $('#balance').html(balance);
+  }
 }
 
 /**
