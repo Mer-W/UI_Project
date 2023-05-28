@@ -1,50 +1,31 @@
 // variables for cards
-let deck;
-let topCard;
-let playerScore = 0;
-let dealerScore = 0;
-let dealerWait;
+var deck;
+var topCard;
+var dealerWait;
 var playerHand = [];
 var dealerHand = [];
 // bank balance
 var balance = 100;
 var bet = 0;
 
-// event listener for onload setup
-window.addEventListener('load', setup);
-
-// variables for DOM elements
-// game phases
-var intro = document.getElementById("intro");
-var gameboard = document.getElementById("game-board");
-var results = document.getElementById("result-section");
-// buttons
-var btnStart = document.getElementById("start-button");
-var btnHit = document.getElementById("hit-button").addEventListener("click", function () { hit(playerHand) });
-var btnStand = document.getElementById("stand-button").addEventListener("click", dealerTurn);
-var btnPlayAgain = document.getElementById("play-again-button");
-// results messages
-var bust = document.getElementById("bust");
-var tie = document.getElementById("tie");
-var win = document.getElementById("win");
-var lose = document.getElementById("lose");
+// event listeners
+$(document).ready(setup);
+$("#start-button").on("click", initiateGame);
+$('#hit-button').on("click", function() { hit(playerHand); });
+$('#stand-button').on("click", dealerTurn);
+$('#play-again-button').on("click", initiateGame);
+$("#token-5").on( "click", function() { bet = 5; beginRound(); });
+$("#token-10").on( "click", function() { bet = 10; beginRound(); });
+$("#toggle-music-button").on("click", toggleMusic);
 
 // audio
 var music = document.getElementById("bg-music");
 var musicPlaying = true;
+music.addEventListener("ended", function () {
+  music.currentTime = 0;
+  music.play();
+})
 
-// bet listeners
-$("#token-5").on( "click", function() {
-  bet = 5;
-  beginRound();
-});
-
-$("#token-10").on( "click", function() {
-  bet = 10;
-  beginRound();
-});
-
-/* Deck functions */
 
 /**
 * Assembles 52-card deck array
@@ -86,7 +67,7 @@ function setCardPoints(card) {
 */
 function shuffleDeck() {
   sortDeck();
-  sfxShuffleSound();
+  $('#shuffle-sound').get(0).play();
   for (i = deck.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -105,8 +86,6 @@ function dealCard() {
   console.log("Card dealt: " + tmp);
   return tmp;
 }
-
-/* Hand functions */
 
 /**
 * Checks for occurence of ace in hand
@@ -139,27 +118,6 @@ function countPoints(hand) {
   return points;
 }
 
-/* N version */
-/* run this every time a card is dealt */
-function checkScore(hand) {
-  let score = 0;
-  for (x in hand) {
-    score += parseInt(setCardPoints(hand[x]))
-  };
-  if ((score <= 11) && (hasAce(hand))) {
-    return score + 10;
-  }
-  else if (score <= 21) {
-    return score;
-  }
-  else return "bust";
-}
-
-function getScore() {
-  console.log("Player Score: " + playerScore);
-  console.log("Dealer Score: " + dealerScore);
-}
-
 /**
 * Checks if hand is bust
 * @param {array}
@@ -172,103 +130,27 @@ function isBust(hand) {
   }
 }
 
-/* Gameplay functions */
+/**
+* Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
+* @param {array} hand
+*/
+function hit(hand) {
+  $('#hit-sound').get(0).play();
+  hitWait = setTimeout(function () {
+    hand.push(dealCard());
+    updatePlayer();
+
+    if (isBust(hand) == true || countPoints(hand) == 21) {
+      endGame();
+    }
+  }, 90)
+}
+
+/* Background audio */
 
 /**
-* Loads loads opening phase (intro and play button)
+* Sets music volume
 */
-function setup() {
-
-  gameboard.style.display = "none";
-  results.style.display = "none";
-
-  // event listener for next phase
-  btnStart.addEventListener("click", initiateGame);
-
-}
-
-/**
-* Loads game phase
-*/
-function initiateGame() {
-
-  intro.style.display = "none";
-  gameboard.style.display = "block";
-  $('#game-buttons').hide();
-  $('#play-again-button').hide();
-  $('#token-5').attr("disabled", false);
-  $('#token-10').attr("disabled", false);
-  results.style.display = "none";
-  tie.style.display = "none";
-  win.style.display = "none";
-  bust.style.display = "none";
-  lose.style.display = "none";
-  playerHand = [];
-  dealerHand = [];
-  updatePlayer();
-  updateDealer();
-
-  bet = 0;
-
-
-  
-}
-
-/**
-* Gets deck, resets hands, deals two cards to player and dealer
-*/
-function beginRound() {
-  sfxBgMusic()
-  setVolume(music, 0.1);
-  var toggleMusicButton = document.getElementById("toggle-music-button");
-  toggleMusicButton.addEventListener("click", toggleMusic);
-
-  shuffleDeck();
-  playerHand[0] = dealCard();
-  playerHand[1] = dealCard();
-  dealerHand[0] = dealCard();
-  dealerHand[1] = dealCard();
-  showConcealed();
-  $("#game-buttons").show();
-  $('#token-5').attr("disabled", true);
-  $('#token-10').attr("disabled", true);
-
-  balance -= bet;
-  $('#balance').empty().append(balance);
-
-  if (countPoints(playerHand) == 21) {
-    dealerTurn();
-  }
-
-}
-
-function sfxHitSound() {
-  var hitSound = document.getElementById("hit-sound");
-  hitSound.play();
-}
-
-function sfxShuffleSound() {
-  var shuffleSound = document.getElementById("shuffle-sound");
-  shuffleSound.play();
-}
-
-function sfxWinSound() {
-  var winSound = document.getElementById("win-sound");
-  winSound.play();
-}
-
-function sfxLoseSound() {
-  var loseSound = document.getElementById("lose-sound");
-  loseSound.play();
-}
-
-function sfxBgMusic() {
-  music.play();
-  music.addEventListener("ended", function () {
-    music.currentTime = 0;
-    music.play();
-  })
-}
 function setVolume(music, volume) {
   if (music) {
     if (music.setVolume) {
@@ -279,6 +161,9 @@ function setVolume(music, volume) {
   }
 }
 
+/**
+* Toggles background music
+*/
 function toggleMusic() {
   if (musicPlaying) {
     music.pause();
@@ -293,6 +178,69 @@ function toggleMusic() {
   }
 }
 
+/* Gameplay functions */
+
+/**
+* Loads loads opening phase (intro and play button)
+*/
+function setup() {
+  $('#game-board').hide();
+  $('#result-section').hide();
+}
+
+/**
+* Loads game phase
+*/
+function initiateGame() {
+  music.play();
+  setVolume(music, 0.1);
+  // hide/show game elements
+  $('#game-board').show();
+  $('#hit-button').attr("disabled", false);
+  $('#stand-button').attr("disabled", false);
+  $('#intro').hide();
+  $('#game-buttons').hide();
+  $('#points').hide();
+  $('#play-again-button').hide();
+  $('#result-section').hide();
+  $('#tie').hide();
+  $('#win').hide();
+  $('#bust').hide();
+  $('#lose').hide();
+  // reset betting and hands
+  $('#token-5').attr("disabled", false);
+  $('#token-10').attr("disabled", false);
+  playerHand = [];
+  dealerHand = [];
+  updatePlayer();
+  updateDealer();
+  bet = 0;
+}
+
+/**
+* Gets deck, resets hands, deals two cards to player and dealer
+*/
+function beginRound() {
+  // buttons
+  $("#game-buttons").show();
+  $('#points').show();
+  $('#token-5').attr("disabled", true);
+  $('#token-10').attr("disabled", true);
+  // hands
+  shuffleDeck();
+  playerHand[0] = dealCard();
+  playerHand[1] = dealCard();
+  dealerHand[0] = dealCard();
+  dealerHand[1] = dealCard();
+  showConcealed();
+  // betting
+  balance -= bet;
+  $('#balance').empty().append(balance);
+  // end turn if 21
+  if (countPoints(playerHand) == 21) {
+    dealerTurn();
+  }
+}
 
 /**
 * Populates HTML elements with cards
@@ -309,17 +257,15 @@ function showHand(hand, elementId) {
 }
 
 /**
-* Shows card images, dealer first card face down
+* Shows card images on initial deal, dealer first card face down
 */
 function showConcealed() {
   updatePlayer();
-  // dealer
   $("#dealer-cards").empty();
-  $('#dealerScore').empty();
-  $('#dealerScore').append("?");
+  $('#dealerScore').html("?");
   div = $('<div class="row justify-content-center"></div>');
   for (let i in dealerHand) {
-    if (i == 0) {
+    if (i == 0) { // face down card
       card = $('<div class="col-3"><img src="images/cardBack.png" alt="face down card" class="w-100"></div>');
     } else {
       card = $('<div class="col-3"><img src="images/' + dealerHand[i] + '.png" alt="' + dealerHand[i] + '" class="w-100"></div>');
@@ -329,42 +275,29 @@ function showConcealed() {
   $("#dealer-cards").append(div);
 }
 
+/**
+* Updates player card images and total points
+*/
 function updatePlayer() {
-  $("#player-cards").empty();
-  $('#playerScore').empty();
-  $("#player-cards").append(showHand(playerHand, "#player-cards"));
-  $('#playerScore').append(countPoints(playerHand));
-}
-
-function updateDealer() {
-  $("#dealer-cards").empty();
-  $('#dealerScore').empty();
-  $("#dealer-cards").append(showHand(dealerHand, "#dealer-cards"));
-  $('#dealerScore').append(countPoints(dealerHand));
+  $("#player-cards").empty().append(showHand(playerHand, "#player-cards"));
+  $('#playerScore').empty().append(countPoints(playerHand));
 }
 
 /**
-* Adds one card to a player's hand. Called when user clicks "Hit" or on dealer's turn
-* @param {array} hand
+* Updates dealer card images and total points
 */
-function hit(hand) {
-  sfxHitSound()
-  hitWait = setTimeout(function () {
-    hand.push(dealCard());
-    updatePlayer();
-
-    if (isBust(hand) == true || countPoints(hand) == 21) {
-      endGame();
-    }
-  }, 90)
+function updateDealer() {
+  $("#dealer-cards").empty().append(showHand(dealerHand, "#dealer-cards"));
+  $('#dealerScore').empty().append(countPoints(dealerHand));
 }
 
 /**
 * Plays dealer's turn. Called when player stands.
 */
 function dealerTurn() {
+  $('#hit-button').attr("disabled", true);
+  $('#stand-button').attr("disabled", true);
   updateDealer();
-
   dealerWait = setInterval(function () {
     if (countPoints(dealerHand) < 17) {
       hit(dealerHand);
@@ -375,7 +308,6 @@ function dealerTurn() {
     }
   }, 600)
 }
-
 
 /**
 * Compares uneven hands to determine winner
@@ -408,35 +340,28 @@ function endGame() {
   updatePlayer();
   $('#game-buttons').hide();
   $('#play-again-button').show();
-  results.style.display = "block";
-  btnPlayAgain.addEventListener("click", initiateGame);
-
+  $('#result-section').show();
 
   // check for bust, tie, win, lose; display message; update bank
   if (isBust(playerHand) == true) {
-    sfxLoseSound();
-    bust.style.display = "block";
-    lose.style.display = "block";
+    $('#lose-sound').get(0).play();
+    $('#bust').show();
+    $('#lose').show();
 
   } else if (isTie() == true) {
-    tie.style.display = "block";
-    // return bet
+    $('#tie').show();
     balance += bet;
-    $('#balance').empty().append(balance);
-
+    $('#balance').html(balance);
 
   } else if (playerWins() == true) {
-    sfxWinSound();
-    win.style.display = "block";
-    // return double bet
+    $('#win-sound').get(0).play();
+    $('#win').show();
     balance += bet * 2;
-    $('#balance').empty().append(balance);
+    $('#balance').html(balance);
 
   } else {
-
-    lose.style.display = "block";
-    sfxLoseSound();
+    $('#lose').show();
+    $('#lose-sound').get(0).play();
   }
-
 }
 
